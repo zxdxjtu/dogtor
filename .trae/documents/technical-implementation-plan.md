@@ -1596,6 +1596,791 @@ body {
 
 .status-indicator {
   display: flex;
-  align-items:
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-text {
+  font-size: 14px;
+  color: #374151;
+}
+
+/* 高级设置按钮 */
+.advanced-button {
+  width: 100%;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: #374151;
+}
+
+.advanced-button:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* 底部样式 */
+.footer {
+  padding: 16px 24px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.heart-icon {
+  width: 16px;
+  height: 16px;
+  color: #ef4444;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 响应式调整 */
+@media (max-width: 320px) {
+  .popup-container {
+    width: 100%;
+    border-radius: 0;
+  }
+  
+  .main-content {
+    padding: 20px;
+  }
+}
+```
+
+**Popup JavaScript (popup/popup.js)**
+```javascript
+import { MESSAGE_TYPES } from '../utils/constants.js';
+import { StorageManager } from '../utils/storage.js';
+
+class PopupController {
+  constructor() {
+    this.elements = {};
+    this.currentSettings = null;
+    this.currentState = null;
+    this.init();
+  }
+  
+  async init() {
+    // 获取DOM元素
+    this.initElements();
+    
+    // 加载当前设置和状态
+    await this.loadCurrentData();
+    
+    // 设置事件监听器
+    this.setupEventListeners();
+    
+    // 初始化UI
+    this.updateUI();
+    
+    // 设置定时更新
+    this.startStatusUpdater();
+  }
+  
+  initElements() {
+    this.elements = {
+      mainToggle: document.getElementById('mainToggle'),
+      angleSlider: document.getElementById('angleSlider'),
+      angleValue: document.getElementById('angleValue'),
+      frequencySlider: document.getElementById('frequencySlider'),
+      frequencyValue: document.getElementById('frequencyValue'),
+      statusSection: document.getElementById('statusSection'),
+      statusText: document.getElementById('statusText'),
+      advancedButton: document.getElementById('advancedButton'),
+      angleIndicator: document.querySelector('.angle-indicator')
+    };
+  }
+  
+  async loadCurrentData() {
+    try {
+      // 获取设置
+      this.currentSettings = await StorageManager.getSettings();
+      
+      // 获取状态
+      const response = await chrome.runtime.sendMessage({
+        type: MESSAGE_TYPES.GET_STATE
+      });
+      
+      if (response.success) {
+        this.currentState = response.state;
+      }
+    } catch (error) {
+      console.error('加载数据失败:', error);
+    }
+  }
+  
+  setupEventListeners() {
+    // 主开关
+    this.elements.mainToggle.addEventListener('change', (e) => {
+      this.handleToggleChange(e.target.checked);
+    });
+    
+    // 角度滑块
+    this.elements.angleSlider.addEventListener('input', (e) => {
+      this.handleAngleChange(parseInt(e.target.value));
+    });
+    
+    // 周期滑块
+    this.elements.frequencySlider.addEventListener('input', (e) => {
+      this.handleFrequencyChange(parseInt(e.target.value));
+    });
+    
+    // 高级设置按钮
+    this.elements.advancedButton.addEventListener('click', () => {
+      this.openAdvancedSettings();
+    });
+  }
+  
+  updateUI() {
+    if (!this.currentSettings) return;
+    
+    // 更新开关状态
+    this.elements.mainToggle.checked = this.currentSettings.isEnabled;
+    
+    // 更新角度设置
+    this.elements.angleSlider.value = this.currentSettings.rotationAngle;
+    this.elements.angleValue.textContent = this.currentSettings.rotationAngle;
+    this.updateAngleIndicator(this.currentSettings.rotationAngle);
+    
+    // 更新周期设置
+    const cycleDurationMinutes = this.currentSettings.cycleDuration / (1000 * 60);
+    this.elements.frequencySlider.value = cycleDurationMinutes;
+    this.elements.frequencyValue.textContent = cycleDurationMinutes;
+    
+    // 更新状态显示
+    this.updateStatusDisplay();
+  }
+  
+  updateAngleIndicator(angle) {
+    // 计算指示线的位置（基于SVG坐标系）
+    const centerX = 96;
+    const centerY = 80;
+    const radius = 60;
+    
+    // 将角度转换为弧度（0度在正上方）
+    const radian = (angle - 90) * Math.PI / 180;
+    const endX = centerX + radius * Math.cos(radian);
+    const endY = centerY + radius * Math.sin(radian);
+    
+    this.elements.angleIndicator.setAttribute('x2', endX);
+    this.elements.angleIndicator.setAttribute('y2', endY);
+  }
+  
+  async handleToggleChange(enabled) {
+    try {
+      if (enabled) {
+        // 启动旋转
+        const response = await chrome.runtime.sendMessage({
+          type: MESSAGE_TYPES.START_ROTATION,
+          payload: this.currentSettings
+        });
+        
+        if (response.success) {
+          this.currentSettings.isEnabled = true;
+          this.currentState = { ...this.currentState, isActive: true };
+          await StorageManager.saveSettings(this.currentSettings);
+        } else {
+          // 启动失败，恢复开关状态
+          this.elements.mainToggle.checked = false;
+          this.showError('启动失败: ' + response.error);
+        }
+      } else {
+        // 停止旋转
+        const response = await chrome.runtime.sendMessage({
+          type: MESSAGE_TYPES.STOP_ROTATION
+        });
+        
+        if (response.success) {
+          this.currentSettings.isEnabled = false;
+          this.currentState = { ...this.currentState, isActive: false };
+          await StorageManager.saveSettings(this.currentSettings);
+        }
+      }
+      
+      this.updateStatusDisplay();
+    } catch (error) {
+      console.error('切换状态失败:', error);
+      this.showError('操作失败，请重试');
+    }
+  }
+  
+  async handleAngleChange(angle) {
+    this.elements.angleValue.textContent = angle;
+    this.updateAngleIndicator(angle);
+    
+    // 更新设置
+    this.currentSettings.rotationAngle = angle;
+    await this.saveSettingsDebounced();
+  }
+  
+  async handleFrequencyChange(minutes) {
+    this.elements.frequencyValue.textContent = minutes;
+    
+    // 更新设置
+    this.currentSettings.cycleDuration = minutes * 60 * 1000;
+    await this.saveSettingsDebounced();
+  }
+  
+  // 防抖保存设置
+  saveSettingsDebounced = this.debounce(async () => {
+    await StorageManager.saveSettings(this.currentSettings);
+    
+    // 如果当前正在运行，通知background更新
+    if (this.currentSettings.isEnabled) {
+      chrome.runtime.sendMessage({
+        type: MESSAGE_TYPES.SETTINGS_CHANGED,
+        payload: this.currentSettings
+      });
+    }
+  }, 500);
+  
+  updateStatusDisplay() {
+    if (this.currentSettings.isEnabled && this.currentState?.nextRotationTime) {
+      const timeUntilNext = Math.max(0, this.currentState.nextRotationTime - Date.now());
+      const minutes = Math.ceil(timeUntilNext / (1000 * 60));
+      
+      this.elements.statusText.textContent = `下次提醒: ${minutes}分钟后`;
+      this.elements.statusSection.style.display = 'block';
+    } else {
+      this.elements.statusSection.style.display = 'none';
+    }
+  }
+  
+  startStatusUpdater() {
+    // 每30秒更新一次状态
+    setInterval(() => {
+      if (this.currentSettings.isEnabled) {
+        this.updateStatusDisplay();
+      }
+    }, 30000);
+  }
+  
+  openAdvancedSettings() {
+    chrome.runtime.openOptionsPage();
+  }
+  
+  showError(message) {
+    // 简单的错误提示实现
+    const errorDiv = document.createElement('div');
+    errorDiv.textContent = message;
+    errorDiv.style.cssText = `
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      z-index: 1000;
+    `;
+    
+    document.body.appendChild(errorDiv);
+    
+    setTimeout(() => {
+      errorDiv.remove();
+    }, 3000);
+  }
+  
+  // 工具函数：防抖
+  debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+}
+
+// 初始化Popup
+document.addEventListener('DOMContentLoaded', () => {
+  new PopupController();
+});
+```
+
+### 6.4 第四阶段：测试和优化（第8-9天）
+
+#### 步骤4.1：单元测试
+
+**测试框架配置 (tests/unit/test-setup.js)**
+```javascript
+// 模拟Chrome API
+global.chrome = {
+  runtime: {
+    sendMessage: jest.fn(),
+    onMessage: {
+      addListener: jest.fn()
+    }
+  },
+  storage: {
+    sync: {
+      get: jest.fn(),
+      set: jest.fn()
+    },
+    local: {
+      get: jest.fn(),
+      set: jest.fn()
+    }
+  },
+  alarms: {
+    create: jest.fn(),
+    clear: jest.fn(),
+    clearAll: jest.fn(),
+    onAlarm: {
+      addListener: jest.fn()
+    }
+  }
+};
+
+// 模拟DOM环境
+Object.defineProperty(window, 'location', {
+  value: {
+    href: 'https://example.com',
+    protocol: 'https:'
+  }
+});
+```
+
+**存储管理器测试 (tests/unit/storage.test.js)**
+```javascript
+import { StorageManager } from '../../utils/storage.js';
+import { DEFAULT_SETTINGS } from '../../utils/constants.js';
+
+describe('StorageManager', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  
+  describe('getSettings', () => {
+    it('应该返回默认设置当存储为空时', async () => {
+      chrome.storage.sync.get.mockResolvedValue({});
+      
+      const settings = await StorageManager.getSettings();
+      
+      expect(settings).toEqual(DEFAULT_SETTINGS);
+    });
+    
+    it('应该合并存储的设置与默认设置', async () => {
+      const storedSettings = {
+        isEnabled: true,
+        rotationAngle: 20
+      };
+      chrome.storage.sync.get.mockResolvedValue({ user_settings: storedSettings });
+      
+      const settings = await StorageManager.getSettings();
+      
+      expect(settings).toEqual({
+        ...DEFAULT_SETTINGS,
+        ...storedSettings
+      });
+    });
+  });
+  
+  describe('saveSettings', () => {
+    it('应该保存设置并添加时间戳', async () => {
+      const settings = { isEnabled: true };
+      const mockTimestamp = 1703123456789;
+      jest.spyOn(Date, 'now').mockReturnValue(mockTimestamp);
+      
+      chrome.storage.sync.set.mockResolvedValue();
+      
+      const result = await StorageManager.saveSettings(settings);
+      
+      expect(result).toBe(true);
+      expect(chrome.storage.sync.set).toHaveBeenCalledWith({
+        user_settings: {
+          ...settings,
+          lastModified: mockTimestamp
+        }
+      });
+    });
+  });
+});
+```
+
+#### 步骤4.2：集成测试
+
+**Service Worker集成测试 (tests/integration/service-worker.test.js)**
+```javascript
+describe('Service Worker Integration', () => {
+  let serviceWorker;
+  
+  beforeEach(() => {
+    // 重置模拟
+    jest.clearAllMocks();
+    
+    // 模拟存储返回
+    chrome.storage.sync.get.mockResolvedValue({
+      user_settings: {
+        isEnabled: false,
+        cycleDuration: 600000,
+        rotationDuration: 30000,
+        rotationAngle: 15
+      }
+    });
+    
+    chrome.storage.local.get.mockResolvedValue({
+      runtime_state: {
+        isActive: false,
+        currentPhase: 'idle'
+      }
+    });
+  });
+  
+  it('应该正确处理启动旋转消息', async () => {
+    const message = {
+      type: 'start_rotation',
+      payload: { isEnabled: true }
+    };
+    
+    const sendResponse = jest.fn();
+    
+    // 模拟消息处理
+    await serviceWorker.handleMessage(message, null, sendResponse);
+    
+    expect(sendResponse).toHaveBeenCalledWith({
+      success: true,
+      nextRotationTime: expect.any(Number)
+    });
+    
+    expect(chrome.alarms.create).toHaveBeenCalled();
+  });
+});
+```
+
+#### 步骤4.3：端到端测试
+
+**E2E测试配置 (tests/e2e/extension.test.js)**
+```javascript
+const puppeteer = require('puppeteer');
+const path = require('path');
+
+describe('Extension E2E Tests', () => {
+  let browser;
+  let page;
+  
+  beforeAll(async () => {
+    // 启动带扩展的浏览器
+    browser = await puppeteer.launch({
+      headless: false,
+      args: [
+        `--load-extension=${path.join(__dirname, '../../')}`,
+        '--disable-extensions-except=' + path.join(__dirname, '../../'),
+        '--disable-web-security'
+      ]
+    });
+    
+    page = await browser.newPage();
+  });
+  
+  afterAll(async () => {
+    await browser.close();
+  });
+  
+  it('应该能够打开popup并启用功能', async () => {
+    // 导航到测试页面
+    await page.goto('https://example.com');
+    
+    // 点击扩展图标（需要手动触发或使用特殊方法）
+    // 这里需要根据实际情况调整
+    
+    // 验证popup是否正确显示
+    // 验证功能是否正常工作
+  });
+});
+```
+
+### 6.5 第五阶段：部署和发布（第10天）
+
+#### 步骤5.1：构建和打包
+
+**构建脚本 (scripts/build.js)**
+```javascript
+const fs = require('fs-extra');
+const path = require('path');
+const archiver = require('archiver');
+
+async function build() {
+  const buildDir = path.join(__dirname, '../build');
+  const sourceDir = path.join(__dirname, '../');
+  
+  // 清理构建目录
+  await fs.remove(buildDir);
+  await fs.ensureDir(buildDir);
+  
+  // 复制必要文件
+  const filesToCopy = [
+    'manifest.json',
+    'background/',
+    'content/',
+    'popup/',
+    'options/',
+    'assets/',
+    'utils/'
+  ];
+  
+  for (const file of filesToCopy) {
+    const sourcePath = path.join(sourceDir, file);
+    const destPath = path.join(buildDir, file);
+    
+    if (await fs.pathExists(sourcePath)) {
+      await fs.copy(sourcePath, destPath);
+    }
+  }
+  
+  // 创建ZIP包
+  await createZip(buildDir);
+  
+  console.log('构建完成!');
+}
+
+async function createZip(buildDir) {
+  const output = fs.createWriteStream(path.join(__dirname, '../neck-therapy-extension.zip'));
+  const archive = archiver('zip', { zlib: { level: 9 } });
+  
+  archive.pipe(output);
+  archive.directory(buildDir, false);
+  await archive.finalize();
+}
+
+build().catch(console.error);
+```
+
+#### 步骤5.2：Chrome Web Store发布准备
+
+**发布清单 (RELEASE_CHECKLIST.md)**
+```markdown
+# 发布前检查清单
+
+## 功能测试
+- [ ] 基础旋转功能正常
+- [ ] 设置保存和加载正常
+- [ ] 跨网站兼容性测试
+- [ ] 错误处理测试
+- [ ] 性能测试
+
+## 代码质量
+- [ ] 代码审查完成
+- [ ] 单元测试通过
+- [ ] 集成测试通过
+- [ ] 无控制台错误
+- [ ] 内存泄漏检查
+
+## 用户体验
+- [ ] UI响应流畅
+- [ ] 错误提示友好
+- [ ] 帮助文档完整
+- [ ] 多语言支持（如需要）
+
+## 安全性
+- [ ] 权限最小化
+- [ ] 数据加密（如需要）
+- [ ] XSS防护
+- [ ] 内容安全策略
+
+## 发布材料
+- [ ] 应用图标（16x16, 48x48, 128x128）
+- [ ] 截图和演示视频
+- [ ] 应用描述
+- [ ] 隐私政策
+- [ ] 版本说明
+```
+
+## 7. 测试策略
+
+### 7.1 测试环境配置
+
+**测试环境要求：**
+- Chrome浏览器 90+ 版本
+- 测试网站：包括静态网站、动态网站、SPA应用
+- 设备：桌面端（Windows、macOS、Linux）
+- 网络环境：正常网络、慢速网络、离线状态
+
+### 7.2 功能测试用例
+
+| 测试场景 | 测试步骤 | 预期结果 |
+|---------|---------|----------|
+| 基础旋转功能 | 1. 安装插件<br>2. 打开任意网页<br>3. 启用旋转功能<br>4. 等待触发时间 | 网页按设定角度和时长进行旋转 |
+| 设置保存 | 1. 修改旋转角度<br>2. 修改旋转周期<br>3. 关闭popup<br>4. 重新打开popup | 设置被正确保存和显示 |
+| 跨标签页同步 | 1. 在标签页A启用功能<br>2. 打开标签页B<br>3. 检查状态同步 | 所有标签页状态一致 |
+| 错误恢复 | 1. 启用功能<br>2. 关闭浏览器<br>3. 重新打开浏览器 | 功能状态正确恢复 |
+
+### 7.3 性能测试
+
+**性能指标：**
+- 内存使用：Service Worker < 10MB，Content Script < 5MB
+- CPU使用：旋转动画期间 < 20%
+- 启动时间：插件初始化 < 500ms
+- 响应时间：UI操作响应 < 100ms
+
+### 7.4 兼容性测试
+
+**测试网站类型：**
+- 静态HTML网站
+- React/Vue/Angular SPA
+- 视频网站（YouTube、Bilibili）
+- 社交媒体（Twitter、Facebook）
+- 电商网站（淘宝、Amazon）
+- 新闻网站
+- 在线文档（Google Docs）
+
+## 8. 部署方案
+
+### 8.1 开发环境部署
+
+```bash
+# 1. 克隆项目
+git clone <repository-url>
+cd neck-therapy-extension
+
+# 2. 安装依赖
+npm install
+
+# 3. 开发模式
+npm run dev
+
+# 4. 在Chrome中加载扩展
+# 打开 chrome://extensions/
+# 启用开发者模式
+# 点击"加载已解压的扩展程序"
+# 选择项目根目录
+```
+
+### 8.2 生产环境构建
+
+```bash
+# 1. 运行测试
+npm run test
+
+# 2. 构建生产版本
+npm run build
+
+# 3. 生成发布包
+npm run package
+
+# 4. 验证构建结果
+npm run verify
+```
+
+### 8.3 Chrome Web Store发布
+
+**发布流程：**
+1. 注册Chrome Web Store开发者账号
+2. 准备发布材料（图标、截图、描述）
+3. 上传扩展包
+4. 填写商店信息
+5. 提交审核
+6. 发布上线
+
+**发布材料清单：**
+- 应用图标：128x128px PNG格式
+- 小图标：16x16px, 48x48px PNG格式
+- 截图：1280x800px或640x400px
+- 宣传图片：440x280px（可选）
+- 应用描述：详细功能说明
+- 隐私政策：数据使用说明
+
+### 8.4 版本管理策略
+
+**版本号规则：**
+- 主版本号：重大功能更新或架构变更
+- 次版本号：新功能添加
+- 修订版本号：Bug修复和小改进
+
+**发布周期：**
+- 主版本：每6个月
+- 次版本：每2个月
+- 修订版本：根据需要随时发布
+
+## 9. 风险评估和应对策略
+
+### 9.1 技术风险
+
+| 风险项 | 风险等级 | 影响 | 应对策略 |
+|-------|---------|------|----------|
+| Chrome API变更 | 中 | 功能失效 | 关注Chrome更新，及时适配 |
+| 网站兼容性问题 | 高 | 部分网站无法使用 | 建立兼容性测试库，持续优化 |
+| 性能问题 | 中 | 用户体验下降 | 性能监控，代码优化 |
+| 安全漏洞 | 高 | 用户数据泄露 | 安全审计，最小权限原则 |
+
+### 9.2 业务风险
+
+| 风险项 | 风险等级 | 影响 | 应对策略 |
+|-------|---------|------|----------|
+| 用户接受度低 | 中 | 推广困难 | 用户调研，功能优化 |
+| 竞品出现 | 低 | 市场份额下降 | 持续创新，差异化竞争 |
+| 政策变化 | 低 | 无法发布 | 关注政策动态，合规开发 |
+
+### 9.3 应急预案
+
+**紧急Bug修复流程：**
+1. 问题确认和影响评估
+2. 紧急修复开发
+3. 快速测试验证
+4. 紧急版本发布
+5. 用户通知和支持
+
+**回滚策略：**
+- 保留前一版本的完整备份
+- 支持快速回滚到稳定版本
+- 用户数据兼容性保证
+
+## 10. 总结
+
+本技术实现方案为颈椎治疗浏览器插件提供了完整的开发指导，涵盖了从项目初始化到最终部署的全过程。方案采用Chrome Manifest V3架构，确保了插件的现代性和长期可维护性。
+
+**核心技术亮点：**
+- 基于Service Worker的稳定后台服务
+- CSS Transform实现的流畅动画效果
+- Chrome Alarms API的精确定时控制
+- 完善的错误处理和兼容性保障
+- 用户友好的界面设计和交互体验
+
+**开发优势：**
+- 详细的分阶段开发计划
+- 完整的测试策略和质量保证
+- 清晰的代码结构和组件设计
+- 全面的文档和部署指南
+
+该方案为开发团队提供了可执行的技术路线图，确保项目能够按时、高质量地完成开发和发布。
 ```
 
