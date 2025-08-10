@@ -1,8 +1,8 @@
-# 颈椎治疗助手
+# Dogtor
 
 <div align="center">
-  <img src="images/dogtor.png" alt="颈椎治疗助手Logo" width="128" height="128">
-  <h3>专为颈椎健康设计的Chrome扩展</h3>
+  <img src="images/dogtor.png" alt="Dogtor Logo" width="128" height="128">
+  <h3>Dogtor - 专为颈椎健康设计的Chrome扩展</h3>
   <p>通过周期性网页旋转锻炼预防颈椎劳损</p>
   
   <p><strong>🏆 TRAE Hackathon Hangzhou 1st Prize 🏆</strong></p>
@@ -10,7 +10,7 @@
 
 ## 🌟 项目概述
 
-颈椎治疗助手是一款专为电脑用户设计的Chrome扩展程序，通过周期性旋转网页内容来帮助用户进行颈椎锻炼。通过自动旋转网页内容，引导用户改变头部姿势，有效减少长时间使用电脑导致的颈椎问题。
+Dogtor（颈椎治疗助手）是一款专为电脑用户设计的Chrome扩展程序，通过周期性旋转网页内容来帮助用户进行颈椎锻炼。通过自动旋转网页内容，引导用户改变头部姿势，有效减少长时间使用电脑导致的颈椎问题。
 
 ## ✨ 核心功能
 
@@ -57,7 +57,7 @@
    - 打开Chrome浏览器，访问 `chrome://extensions/`
    - 在右上角启用"开发者模式"
    - 点击"加载已解压的扩展程序"，选择扩展文件夹
-   - 颈椎治疗助手图标将出现在工具栏中
+   - Dogtor图标将出现在工具栏中
 
 3. **开始使用**
    - 点击扩展图标打开控制面板

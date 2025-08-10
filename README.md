@@ -1,8 +1,8 @@
-# Neck Therapy Assistant
+# Dogtor
 
 <div align="center">
-  <img src="images/dogtor.png" alt="Neck Therapy Assistant Logo" width="128" height="128">
-  <h3>A Chrome Extension for Cervical Spine Health</h3>
+  <img src="images/dogtor.png" alt="Dogtor Logo" width="128" height="128">
+  <h3>颈椎治疗助手 - Cervical Spine Health Assistant</h3>
   <p>Help prevent neck strain through periodic webpage rotation exercises</p>
   
   <p><strong>🏆 TRAE Hackathon Hangzhou 1st Prize 🏆</strong></p>
@@ -10,7 +10,7 @@
 
 ## 🌟 Overview
 
-Neck Therapy Assistant is a Chrome extension designed to help computer users maintain cervical spine health through periodic webpage rotation exercises. By automatically rotating webpage content at customizable intervals, it encourages users to change their head posture, reducing the risk of neck strain from prolonged computer use.
+Dogtor is a Chrome extension designed to help computer users maintain cervical spine health through periodic webpage rotation exercises. By automatically rotating webpage content at customizable intervals, it encourages users to change their head posture, reducing the risk of neck strain from prolonged computer use.
 
 ## ✨ Features
 
@@ -49,18 +49,18 @@ Neck Therapy Assistant is a Chrome extension designed to help computer users mai
 
 1. **Download the Extension**
    ```bash
-   git clone https://github.com/your-username/neck-therapy-extension.git
-   cd neck-therapy-extension
+   git clone https://github.com/your-username/dogtor.git
+   cd dogtor
    ```
 
 2. **Load in Chrome**
    - Open Chrome and navigate to `chrome://extensions/`
    - Enable "Developer mode" in the top right
    - Click "Load unpacked" and select the extension folder
-   - The Neck Therapy Assistant icon will appear in your toolbar
+   - The Dogtor icon will appear in your toolbar
 
 3. **Start Using**
-   - Click the extension icon to open the control panel
+   - Click the Dogtor extension icon to open the control panel
    - Toggle the switch to enable automatic rotations
    - Customize settings in the options page if needed
 
@@ -97,7 +97,7 @@ Neck Therapy Assistant is a Chrome extension designed to help computer users mai
 ## 📁 Project Structure
 
 ```
-neck-therapy-extension/
+dogtor/
 ├── manifest.json              # Extension configuration
 ├── background/
 │   └── service-worker.js      # Background script (Service Worker)
@@ -129,8 +129,8 @@ neck-therapy-extension/
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/neck-therapy-extension.git
-   cd neck-therapy-extension
+   git clone https://github.com/your-username/dogtor.git
+   cd dogtor
    ```
 
 2. **Load in Developer Mode**
@@ -204,9 +204,9 @@ For detailed project documentation and development insights, please visit:
 
 If you encounter any issues or have questions:
 
-- **Issues**: [GitHub Issues](https://github.com/your-username/neck-therapy-extension/issues)
-- **Documentation**: [Project Wiki](https://github.com/your-username/neck-therapy-extension/wiki)
-- **Email**: support@neck-therapy-extension.com
+- **Issues**: [GitHub Issues](https://github.com/your-username/dogtor/issues)
+- **Documentation**: [Project Wiki](https://github.com/your-username/dogtor/wiki)
+- **Email**: support@dogtor.com
 
 ## 🔮 Roadmap
 

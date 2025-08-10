@@ -9,10 +9,10 @@ const testCases = [
       // 清除所有存储
       await chrome.storage.sync.clear();
       await chrome.storage.local.clear();
-      
+
       // 发送获取状态消息
       const response = await sendMessage({ type: 'get_state' });
-      
+
       console.log('默认状态:', response);
       return response.success && !response.settings.isEnabled;
     }
@@ -27,24 +27,24 @@ const testCases = [
         rotationDuration: 45 * 1000,
         showIndicator: true
       };
-      
+
       // 保存设置
       const saveResponse = await sendMessage({
         type: 'settings_changed',
         payload: testSettings
       });
-      
+
       if (!saveResponse.success) {
         console.error('设置保存失败:', saveResponse.error);
         return false;
       }
-      
+
       // 获取设置验证
       const getResponse = await sendMessage({ type: 'get_state' });
-      
+
       console.log('保存后的设置:', getResponse.settings);
-      
-      return getResponse.success && 
+
+      return getResponse.success &&
              getResponse.settings.isEnabled === testSettings.isEnabled &&
              getResponse.settings.rotationAngle === testSettings.rotationAngle;
     }
@@ -65,18 +65,18 @@ const testCases = [
           }
         }
       });
-      
+
       if (!startResponse.success) {
         console.error('启动失败:', startResponse.error);
         return false;
       }
-      
+
       // 验证状态
       const getResponse = await sendMessage({ type: 'get_state' });
-      
+
       console.log('启动后的状态:', getResponse);
-      
-      return getResponse.success && 
+
+      return getResponse.success &&
              getResponse.settings.isEnabled === true &&
              getResponse.state.isActive === true;
     }
@@ -86,18 +86,18 @@ const testCases = [
     test: async () => {
       // 停止旋转
       const stopResponse = await sendMessage({ type: 'stop_rotation' });
-      
+
       if (!stopResponse.success) {
         console.error('停止失败:', stopResponse.error);
         return false;
       }
-      
+
       // 验证状态
       const getResponse = await sendMessage({ type: 'get_state' });
-      
+
       console.log('停止后的状态:', getResponse);
-      
-      return getResponse.success && 
+
+      return getResponse.success &&
              getResponse.settings.isEnabled === false &&
              getResponse.state.isActive === false;
     }
@@ -121,16 +121,16 @@ function sendMessage(message) {
 // 运行测试
 async function runTests() {
   console.log('开始状态持久化测试...');
-  
+
   let passedTests = 0;
-  let totalTests = testCases.length;
-  
+  const totalTests = testCases.length;
+
   for (const testCase of testCases) {
     console.log(`\n运行测试: ${testCase.name}`);
-    
+
     try {
       const result = await testCase.test();
-      
+
       if (result) {
         console.log(`✅ ${testCase.name} - 通过`);
         passedTests++;
@@ -140,13 +140,13 @@ async function runTests() {
     } catch (error) {
       console.error(`❌ ${testCase.name} - 错误:`, error);
     }
-    
+
     // 测试间隔
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
-  
+
   console.log(`\n测试完成: ${passedTests}/${totalTests} 通过`);
-  
+
   if (passedTests === totalTests) {
     console.log('🎉 所有测试通过！状态持久化功能正常工作。');
   } else {

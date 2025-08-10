@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>颈椎治疗助手 - 设置</title>
+  <title data-i18n="optionsTitle">Dogtor - 颈椎治疗助手 设置</title>
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
@@ -13,9 +13,16 @@
       <div class="header-content">
         <img src="../icons/icon-48.png" alt="Dogtor Logo" class="logo">
         <div class="header-text">
-          <h1>颈椎治疗助手</h1>
-          <p>专业的颈椎健康管理工具</p>
+          <h1 data-i18n="appTitle">Dogtor</h1>
+          <p data-i18n="optionsSubtitle">颈椎治疗助手 - 专业的颈椎健康管理工具</p>
         </div>
+      </div>
+      <!-- 语言切换按钮 -->
+      <div class="language-toggle">
+        <button id="languageToggle" class="language-btn" title="切换语言 / Switch Language">
+          <span id="languageIcon">🌐</span>
+          <span id="currentLang">EN</span>
+        </button>
       </div>
     </header>
 
@@ -23,11 +30,11 @@
     <main class="main-content">
       <!-- 基础设置 -->
       <section class="settings-section">
-        <h2>基础设置</h2>
+        <h2 data-i18n="basicSettingsTitle">基础设置</h2>
         
         <div class="setting-item">
           <label class="setting-label">
-            <span class="label-text">启用自动提醒</span>
+            <span class="label-text" data-i18n="enableReminderLabel">启用自动提醒</span>
             <div class="switch-container">
               <input type="checkbox" id="enableReminder" class="switch-input">
               <span class="switch-slider"></span>
@@ -228,6 +235,7 @@
     </div>
   </div>
 
+  <script src="../utils/i18n.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-// 颈椎治疗助手 - 常量定义
+// Dogtor 颈椎治疗助手 - 常量定义
 
 // 消息类型常量
 export const MessageTypes = {
@@ -297,9 +297,10 @@ export const LogLevels = {
 
 // 扩展信息常量
 export const EXTENSION_INFO = {
-  NAME: '颈椎治疗助手',
+  NAME: 'Dogtor',
+  SUBTITLE: '颈椎治疗助手',
   VERSION: '1.0.0',
-  DESCRIPTION: '专业的颈椎健康管理工具',
+  DESCRIPTION: 'Dogtor - 专业的颈椎健康管理工具',
   AUTHOR: 'Dogtor Health',
   HOMEPAGE: 'https://github.com/dogtor-health/neck-therapy-extension',
   SUPPORT_EMAIL: 'support@dogtor.health'

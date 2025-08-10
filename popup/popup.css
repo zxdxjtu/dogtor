@@ -25,6 +25,9 @@ body {
 /* Header */
 .header {
   padding: 24px 24px 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .logo-section {
@@ -32,6 +35,52 @@ body {
   align-items: center;
   gap: 12px;
   margin-bottom: 8px;
+}
+
+/* 语言切换按钮 */
+.language-toggle {
+  margin-top: -4px;
+}
+
+.language-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 48px;
+  justify-content: center;
+}
+
+.language-btn:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #475569;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.language-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#languageIcon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+#currentLang {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .logo {
@@ -70,10 +119,10 @@ body {
 
 /* Content */
 .content {
-  padding: 0 24px 24px 24px;
+  padding: 0 24px 20px 24px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 18px;
 }
 
 .section {
@@ -150,18 +199,18 @@ body {
 .protractor-container {
   display: flex;
   justify-content: center;
-  margin: 16px 0;
+  margin: 12px 0;
 }
 
 .protractor {
-  width: 192px;
-  height: 96px;
+  width: 160px;
+  height: 80px;
 }
 
 /* Angle Display */
 .angle-display {
   text-align: center;
-  margin: 16px 0;
+  margin: 12px 0;
 }
 
 .angle-value {
@@ -226,7 +275,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .clock-icon {
@@ -236,7 +285,7 @@ body {
 }
 
 .frequency-display {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   font-size: 16px;
   color: #111827;
 }

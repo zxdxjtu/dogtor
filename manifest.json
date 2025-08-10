@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "颈椎治疗助手",
+  "name": "Dogtor - 颈椎治疗助手",
   "version": "1.0.0",
-  "description": "通过周期性旋转网页内容帮助用户进行颈椎锻炼的Chrome扩展程序",
+  "description": "Dogtor helps prevent neck strain through periodic webpage rotation exercises - 通过周期性旋转网页内容帮助用户进行颈椎锻炼的Chrome扩展程序",
   
   "permissions": [
     "storage",
@@ -26,7 +26,7 @@
   
   "action": {
     "default_popup": "popup/popup.html",
-    "default_title": "颈椎治疗助手",
+    "default_title": "Dogtor - 颈椎治疗助手",
     "default_icon": {
       "16": "icons/icon-16.png",
       "32": "icons/icon-32.png",

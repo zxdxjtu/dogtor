@@ -1,7 +1,7 @@
 {
-  "name": "neck-therapy-extension",
+  "name": "dogtor-neck-therapy-extension",
   "version": "1.0.0",
-  "description": "颈椎治疗助手 - 专业的颈椎健康管理Chrome扩展",
+  "description": "Dogtor - 颈椎治疗助手 | Professional neck health management Chrome extension",
   "main": "background/service-worker.js",
   "scripts": {
     "dev": "web-ext run --source-dir=. --target=chromium",
@@ -15,12 +15,14 @@
     "install-dev": "npm install --save-dev eslint web-ext"
   },
   "keywords": [
+    "dogtor",
     "chrome-extension",
     "neck-therapy",
     "health",
     "ergonomics",
     "wellness",
-    "productivity"
+    "productivity",
+    "cervical-spine"
   ],
   "author": "Dogtor Health",
   "license": "MIT",

@@ -1,4 +1,4 @@
-// 颈椎治疗浏览器插件 - Content Script
+// Dogtor 颈椎治疗助手 - Content Script
 // 负责DOM操作、旋转动画、状态指示器和事件监听
 
 // 消息类型常量
@@ -23,7 +23,27 @@ class AnimationManager {
   setupTransition() {
     // 应用平滑过渡效果
     this.targetElement.style.transition = 'transform 2s ease-in-out';
-    this.targetElement.style.transformOrigin = 'center center';
+    this.updateTransformOrigin();
+  }
+
+  updateTransformOrigin() {
+    // 计算用户当前可视区域的中心点
+    const viewportCenterX = window.innerWidth / 2;
+    const viewportCenterY = window.innerHeight / 2;
+
+    // 获取当前滚动位置
+    const scrollX = window.scrollX || document.documentElement.scrollLeft;
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+    // 计算viewport中心在document中的绝对位置
+    const absoluteCenterX = scrollX + viewportCenterX;
+    const absoluteCenterY = scrollY + viewportCenterY;
+
+    // 将绝对位置转换为相对于document的百分比或像素值
+    // 使用像素值更精确
+    this.targetElement.style.transformOrigin = `${absoluteCenterX}px ${absoluteCenterY}px`;
+
+    console.log(`Transform origin updated to: ${absoluteCenterX}px ${absoluteCenterY}px (viewport: ${viewportCenterX}, ${viewportCenterY}, scroll: ${scrollX}, ${scrollY})`);
   }
 
   rotateToAngle(angle) {
@@ -33,6 +53,9 @@ class AnimationManager {
         resolve();
         return;
       }
+
+      // 在每次旋转前重新计算旋转中心，以适应用户的滚动位置变化
+      this.updateTransformOrigin();
 
       this.isAnimating = true;
       this.currentAngle = angle;
@@ -203,6 +226,52 @@ class RotationController {
       rotationDuration: 30000,
       showIndicator: true
     };
+    this.currentLanguage = 'en'; // 默认英文
+    this.initializeLanguage();
+  }
+
+  async initializeLanguage() {
+    try {
+      const result = await chrome.storage.sync.get(['language']);
+      this.currentLanguage = result.language || 'en';
+    } catch (error) {
+      console.warn('Failed to load language preference:', error);
+      this.currentLanguage = 'en';
+    }
+  }
+
+  getI18nMessage(key, params = {}) {
+    const messages = {
+      zh: {
+        exerciseStarting: '颈椎锻炼开始...',
+        rotateLeft: '向左旋转 {angle}°',
+        rotateRight: '向右旋转 {angle}°',
+        restorePosition: '恢复正常位置',
+        exerciseComplete: '颈椎锻炼完成！',
+        exerciseInProgress: '颈椎锻炼进行中... {time}',
+        exerciseError: '锻炼过程出现错误'
+      },
+      en: {
+        exerciseStarting: 'Cervical exercise starting...',
+        rotateLeft: 'Rotate left {angle}°',
+        rotateRight: 'Rotate right {angle}°',
+        restorePosition: 'Restore to normal position',
+        exerciseComplete: 'Cervical exercise completed!',
+        exerciseInProgress: 'Cervical exercise in progress... {time}',
+        exerciseError: 'Error occurred during exercise'
+      }
+    };
+
+    let translation = messages[this.currentLanguage]?.[key] || messages.en[key] || key;
+
+    // 参数替换
+    if (typeof translation === 'string' && Object.keys(params).length > 0) {
+      translation = translation.replace(/\{(\w+)\}/g, (match, param) => {
+        return params[param] !== undefined ? params[param] : match;
+      });
+    }
+
+    return translation;
   }
 
   async executeRotationSequence(payload) {
@@ -226,13 +295,13 @@ class RotationController {
 
       // 显示状态指示器
       if (showIndicator) {
-        this.statusIndicator.show('颈椎锻炼开始...', rotationDuration);
+        this.statusIndicator.show(this.getI18nMessage('exerciseStarting'), rotationDuration);
       }
 
       // 步骤1: 左旋转
       this.currentPhase = 'left';
       if (showIndicator) {
-        this.statusIndicator.show(`向左旋转 ${rotationAngle}°`, stepDuration);
+        this.statusIndicator.show(this.getI18nMessage('rotateLeft', { angle: rotationAngle }), stepDuration);
       }
       await this.animationManager.rotateToAngle(-rotationAngle);
       await this.delay(stepDuration);
@@ -240,7 +309,7 @@ class RotationController {
       // 步骤2: 右旋转
       this.currentPhase = 'right';
       if (showIndicator) {
-        this.statusIndicator.show(`向右旋转 ${rotationAngle}°`, stepDuration);
+        this.statusIndicator.show(this.getI18nMessage('rotateRight', { angle: rotationAngle }), stepDuration);
       }
       await this.animationManager.rotateToAngle(rotationAngle);
       await this.delay(stepDuration);
@@ -248,7 +317,7 @@ class RotationController {
       // 步骤3: 恢复正常
       this.currentPhase = 'reset';
       if (showIndicator) {
-        this.statusIndicator.show('恢复正常位置', stepDuration);
+        this.statusIndicator.show(this.getI18nMessage('restorePosition'), stepDuration);
       }
       await this.animationManager.reset();
       await this.delay(stepDuration);
@@ -258,7 +327,7 @@ class RotationController {
       this.isActive = false;
 
       if (showIndicator) {
-        this.statusIndicator.show('颈椎锻炼完成！', 2000);
+        this.statusIndicator.show(this.getI18nMessage('exerciseComplete'), 2000);
         setTimeout(() => {
           this.statusIndicator.hide();
         }, 2000);
@@ -277,7 +346,7 @@ class RotationController {
       this.currentPhase = 'idle';
 
       if (this.settings.showIndicator) {
-        this.statusIndicator.show('锻炼过程出现错误', 3000);
+        this.statusIndicator.show(this.getI18nMessage('exerciseError'), 3000);
         setTimeout(() => {
           this.statusIndicator.hide();
         }, 3000);
@@ -431,5 +500,5 @@ window.addEventListener('beforeunload', () => {
   rotationController.stop();
 });
 
-console.log('Neck Therapy Extension Content Script loaded');
+console.log('Dogtor Extension Content Script loaded');
 console.log('Page compatibility:', CompatibilityHandler.checkCompatibility());

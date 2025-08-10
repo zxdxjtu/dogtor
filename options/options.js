@@ -1,4 +1,4 @@
-// 颈椎治疗助手 - 选项页面交互逻辑
+// Dogtor 颈椎治疗助手 - 选项页面交互逻辑
 
 // 消息类型常量
 const MessageTypes = {
@@ -34,38 +34,42 @@ const elements = {
   intervalDisplay: document.getElementById('intervalDisplay'),
   exerciseDuration: document.getElementById('exerciseDuration'),
   durationDisplay: document.getElementById('durationDisplay'),
-  
+
   // 显示设置
   showIndicator: document.getElementById('showIndicator'),
   soundNotification: document.getElementById('soundNotification'),
   desktopNotification: document.getElementById('desktopNotification'),
-  
+
   // 高级设置
   smartPause: document.getElementById('smartPause'),
   workingHours: document.getElementById('workingHours'),
   timeRangeContainer: document.getElementById('timeRangeContainer'),
   startTime: document.getElementById('startTime'),
   endTime: document.getElementById('endTime'),
-  
+
+  // 语言切换
+  languageToggle: document.getElementById('languageToggle'),
+  currentLang: document.getElementById('currentLang'),
+
   // 统计信息
   totalExercises: document.getElementById('totalExercises'),
   totalTime: document.getElementById('totalTime'),
   streakDays: document.getElementById('streakDays'),
   todayExercises: document.getElementById('todayExercises'),
-  
+
   // 操作按钮
   saveSettings: document.getElementById('saveSettings'),
   resetSettings: document.getElementById('resetSettings'),
   resetStats: document.getElementById('resetStats'),
   exportStats: document.getElementById('exportStats'),
-  
+
   // 对话框
   confirmDialog: document.getElementById('confirmDialog'),
   dialogTitle: document.getElementById('dialogTitle'),
   dialogMessage: document.getElementById('dialogMessage'),
   dialogCancel: document.getElementById('dialogCancel'),
   dialogConfirm: document.getElementById('dialogConfirm'),
-  
+
   // 通知
   notification: document.getElementById('notification'),
   notificationMessage: document.getElementById('notificationMessage'),
@@ -221,10 +225,10 @@ class OptionsApp {
   async loadSettings() {
     try {
       const response = await this.sendMessage({ type: MessageTypes.GET_STATE });
-      
+
       if (response && response.success && response.settings) {
         currentSettings = { ...DEFAULT_SETTINGS, ...response.settings };
-        
+
         // 转换时间格式
         if (currentSettings.cycleDuration) {
           currentSettings.cycleDuration = Math.max(60000, currentSettings.cycleDuration);
@@ -232,7 +236,7 @@ class OptionsApp {
         if (currentSettings.rotationDuration) {
           currentSettings.rotationDuration = Math.max(15000, currentSettings.rotationDuration);
         }
-        
+
         this.updateUI();
         console.log('Settings loaded:', currentSettings);
       }
@@ -245,7 +249,7 @@ class OptionsApp {
   async loadStats() {
     try {
       const response = await this.sendMessage({ type: MessageTypes.GET_STATS });
-      
+
       if (response && response.success && response.stats) {
         currentStats = { ...currentStats, ...response.stats };
         this.updateStatsDisplay();
@@ -263,26 +267,26 @@ class OptionsApp {
     elements.rotationAngle.value = currentSettings.rotationAngle;
     elements.reminderInterval.value = Math.round(currentSettings.cycleDuration / 60000);
     elements.exerciseDuration.value = Math.round(currentSettings.rotationDuration / 1000);
-    
+
     // 更新显示设置
     elements.showIndicator.checked = currentSettings.showIndicator;
     elements.soundNotification.checked = currentSettings.soundNotification;
     elements.desktopNotification.checked = currentSettings.desktopNotification;
-    
+
     // 更新高级设置
     elements.smartPause.checked = currentSettings.smartPause;
     elements.workingHours.checked = currentSettings.workingHours;
     elements.startTime.value = currentSettings.startTime;
     elements.endTime.value = currentSettings.endTime;
-    
+
     // 更新时间范围显示
     elements.timeRangeContainer.style.display = currentSettings.workingHours ? 'flex' : 'none';
-    
+
     // 更新显示值
     this.updateAngleDisplay(currentSettings.rotationAngle);
     this.updateIntervalDisplay(Math.round(currentSettings.cycleDuration / 60000));
     this.updateDurationDisplay(Math.round(currentSettings.rotationDuration / 1000));
-    
+
     // 重置保存按钮状态
     this.resetSaveButton();
   }
@@ -322,12 +326,12 @@ class OptionsApp {
     try {
       elements.saveSettings.disabled = true;
       elements.saveSettings.textContent = '保存中...';
-      
+
       const response = await this.sendMessage({
         type: MessageTypes.SETTINGS_CHANGED,
         payload: currentSettings
       });
-      
+
       if (response && response.success) {
         this.showNotification('设置已保存', 'success');
         this.resetSaveButton();
@@ -361,7 +365,7 @@ class OptionsApp {
   async resetStats() {
     try {
       const response = await this.sendMessage({ type: MessageTypes.RESET_STATS });
-      
+
       if (response && response.success) {
         currentStats = {
           totalExercises: 0,
@@ -384,16 +388,16 @@ class OptionsApp {
   async exportStats() {
     try {
       const response = await this.sendMessage({ type: MessageTypes.EXPORT_STATS });
-      
+
       if (response && response.success && response.data) {
         const dataStr = JSON.stringify(response.data, null, 2);
         const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        
+
         const link = document.createElement('a');
         link.href = URL.createObjectURL(dataBlob);
         link.download = `neck-therapy-stats-${new Date().toISOString().split('T')[0]}.json`;
         link.click();
-        
+
         URL.revokeObjectURL(link.href);
         this.showNotification('统计数据已导出', 'success');
       } else {
@@ -424,12 +428,12 @@ class OptionsApp {
     elements.dialogTitle.textContent = title;
     elements.dialogMessage.textContent = message;
     elements.confirmDialog.style.display = 'flex';
-    
+
     // 移除之前的事件监听器
     const newConfirmButton = elements.dialogConfirm.cloneNode(true);
     elements.dialogConfirm.parentNode.replaceChild(newConfirmButton, elements.dialogConfirm);
     elements.dialogConfirm = newConfirmButton;
-    
+
     // 添加新的事件监听器
     elements.dialogConfirm.addEventListener('click', () => {
       this.hideConfirmDialog();
@@ -445,7 +449,7 @@ class OptionsApp {
     elements.notificationMessage.textContent = message;
     elements.notification.className = `notification ${type}`;
     elements.notification.style.display = 'block';
-    
+
     // 自动隐藏
     setTimeout(() => {
       this.hideNotification();

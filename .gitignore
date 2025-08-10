@@ -49,3 +49,6 @@ logs/
 # Extension specific
 .web-extension-id
 .trae/
+
+# Claude Code documentation (user-specific)
+CLAUDE.md
