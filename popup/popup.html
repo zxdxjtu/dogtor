@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>颈椎治疗助手</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-section">
+        <div class="logo">
+          <img src="../icons/icon-32.png" alt="Dogtor" class="logo-img">
+        </div>
+        <div class="title-section">
+          <h1 class="title">Dogtor</h1>
+          <p class="subtitle">颈椎健康提醒助手</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Auto Rotation Toggle -->
+      <div class="section">
+        <div class="toggle-section">
+          <div class="toggle-info">
+            <h3 class="section-title">自动旋转提醒</h3>
+            <p class="section-description">开启后将定期旋转页面提醒您活动颈椎</p>
+          </div>
+          <div class="switch-container">
+            <input type="checkbox" id="enableSwitch" class="switch-input">
+            <label for="enableSwitch" class="switch-label">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rotation Angle -->
+      <div class="section">
+        <h3 class="section-title">旋转角度</h3>
+        
+        <!-- Protractor Visualization -->
+        <div class="protractor-container">
+          <svg width="192" height="96" viewBox="0 0 192 96" class="protractor">
+            <!-- Main arc -->
+            <path d="M 16 80 A 80 80 0 0 1 176 80" fill="none" stroke="#e5e7eb" stroke-width="2"/>
+            
+            <!-- Tick marks -->
+            <line x1="21" y1="80" x2="16" y2="80" stroke="#d1d5db" stroke-width="1"/>
+            <line x1="39.5" y1="61.5" x2="36.5" y2="58.5" stroke="#d1d5db" stroke-width="1"/>
+            <line x1="68" y1="48" x2="66" y2="43" stroke="#d1d5db" stroke-width="1"/>
+            <line x1="96" y1="5" x2="96" y2="0" stroke="#d1d5db" stroke-width="1"/>
+            <line x1="124" y1="48" x2="126" y2="43" stroke="#d1d5db" stroke-width="1"/>
+            <line x1="152.5" y1="61.5" x2="155.5" y2="58.5" stroke="#d1d5db" stroke-width="1"/>
+            <line x1="171" y1="80" x2="176" y2="80" stroke="#d1d5db" stroke-width="1"/>
+            
+            <!-- Current angle line -->
+            <line id="angleLine" x1="96" y1="80" x2="96" y2="10" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/>
+            
+            <!-- Center dot -->
+            <circle cx="96" cy="80" r="4" fill="#1f2937"/>
+          </svg>
+        </div>
+
+        <!-- Angle display -->
+        <div class="angle-display">
+          <span id="angleValue" class="angle-value">15°</span>
+        </div>
+
+        <!-- Angle slider -->
+        <div class="slider-container">
+          <input type="range" id="angleSlider" class="slider" min="0" max="45" value="15" step="1">
+          <div class="slider-labels">
+            <span>0°</span>
+            <span>45°</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rotation Frequency -->
+      <div class="section">
+        <div class="frequency-header">
+          <svg class="clock-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12,6 12,12 16,14"/>
+          </svg>
+          <h3 class="section-title">旋转周期</h3>
+        </div>
+        
+        <div class="frequency-display">
+          <span>每隔 <span id="frequencyValue" class="frequency-value">10</span> 分钟</span>
+        </div>
+
+        <div class="slider-container">
+          <input type="range" id="frequencySlider" class="slider" min="1" max="60" value="10" step="1">
+          <div class="slider-labels">
+            <span>1分钟</span>
+            <span>60分钟</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div id="statusSection" class="status-section" style="display: none;">
+        <div class="status-content">
+          <div class="status-indicator"></div>
+          <span id="statusText" class="status-text">下次提醒: 10分钟后</span>
+        </div>
+      </div>
+
+      <!-- Bottom message -->
+      <div class="bottom-message">
+        <span>保护您的颈椎健康</span>
+        <svg class="heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

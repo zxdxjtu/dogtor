@@ -1,0 +1,376 @@
+/* 颈椎治疗助手 - Popup样式 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #f8fafc;
+  width: 320px;
+  height: auto;
+  overflow: hidden;
+}
+
+.popup-container {
+  width: 320px;
+  background: white;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  padding: 24px 24px 16px 24px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background: #1f2937;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.logo-img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.title-section {
+  flex: 1;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+/* Content */
+.content {
+  padding: 0 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.section-description {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* Toggle Section */
+.toggle-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.toggle-info {
+  flex: 1;
+}
+
+.switch-container {
+  flex-shrink: 0;
+}
+
+/* Custom Switch */
+.switch-input {
+  display: none;
+}
+
+.switch-label {
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  background: #d1d5db;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.switch-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.switch-input:checked + .switch-label {
+  background: #3b82f6;
+}
+
+.switch-input:checked + .switch-label .switch-slider {
+  transform: translateX(20px);
+}
+
+/* Protractor */
+.protractor-container {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.protractor {
+  width: 192px;
+  height: 96px;
+}
+
+/* Angle Display */
+.angle-display {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.angle-value {
+  font-size: 32px;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Slider */
+.slider-container {
+  padding: 0 8px;
+}
+
+.slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e5e7eb;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Frequency Section */
+.frequency-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.clock-icon {
+  color: #6b7280;
+  width: 16px;
+  height: 16px;
+}
+
+.frequency-display {
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: #111827;
+}
+
+.frequency-value {
+  font-weight: 500;
+  color: #3b82f6;
+}
+
+/* Status Section */
+.status-section {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  background: #6b7280;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-indicator.active {
+  background: #10b981;
+}
+
+.status-text {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Bottom Message */
+.bottom-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.heart-icon {
+  color: #f87171;
+  width: 16px;
+  height: 16px;
+}
+
+/* Loading State */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Error State */
+.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.error-message {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 4px;
+}
+
+/* Success State */
+.success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+}
+
+/* Disabled State */
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 320px) {
+  .popup-container {
+    width: 100%;
+    border-radius: 0;
+  }
+  
+  .header,
+  .content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Smooth transitions */
+* {
+  transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Focus styles for accessibility */
+.switch-label:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.slider:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .switch-label {
+    border: 2px solid currentColor;
+  }
+  
+  .slider {
+    border: 2px solid currentColor;
+  }
+}

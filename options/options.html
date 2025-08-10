@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>颈椎治疗助手 - 设置</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <header class="header">
+      <div class="header-content">
+        <img src="../icons/icon-48.png" alt="Dogtor Logo" class="logo">
+        <div class="header-text">
+          <h1>颈椎治疗助手</h1>
+          <p>专业的颈椎健康管理工具</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+      <!-- 基础设置 -->
+      <section class="settings-section">
+        <h2>基础设置</h2>
+        
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">启用自动提醒</span>
+            <div class="switch-container">
+              <input type="checkbox" id="enableReminder" class="switch-input">
+              <span class="switch-slider"></span>
+            </div>
+          </label>
+          <p class="setting-description">开启后将按设定的时间间隔自动提醒您进行颈椎旋转运动</p>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">旋转角度</span>
+            <span class="setting-value" id="angleDisplay">15°</span>
+          </label>
+          <div class="slider-container">
+            <input type="range" id="rotationAngle" min="5" max="45" value="15" class="slider">
+            <div class="slider-labels">
+              <span>5°</span>
+              <span>25°</span>
+              <span>45°</span>
+            </div>
+          </div>
+          <p class="setting-description">设置颈椎左右旋转的最大角度，建议范围5°-45°</p>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">提醒间隔</span>
+            <span class="setting-value" id="intervalDisplay">10分钟</span>
+          </label>
+          <div class="slider-container">
+            <input type="range" id="reminderInterval" min="1" max="60" value="10" class="slider">
+            <div class="slider-labels">
+              <span>1分钟</span>
+              <span>30分钟</span>
+              <span>60分钟</span>
+            </div>
+          </div>
+          <p class="setting-description">设置自动提醒的时间间隔</p>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">运动持续时间</span>
+            <span class="setting-value" id="durationDisplay">30秒</span>
+          </label>
+          <div class="slider-container">
+            <input type="range" id="exerciseDuration" min="15" max="120" value="30" step="15" class="slider">
+            <div class="slider-labels">
+              <span>15秒</span>
+              <span>60秒</span>
+              <span>120秒</span>
+            </div>
+          </div>
+          <p class="setting-description">设置每次颈椎运动的持续时间</p>
+        </div>
+      </section>
+
+      <!-- 显示设置 -->
+      <section class="settings-section">
+        <h2>显示设置</h2>
+        
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">显示状态指示器</span>
+            <div class="switch-container">
+              <input type="checkbox" id="showIndicator" class="switch-input" checked>
+              <span class="switch-slider"></span>
+            </div>
+          </label>
+          <p class="setting-description">在页面上显示运动状态和倒计时指示器</p>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">声音提醒</span>
+            <div class="switch-container">
+              <input type="checkbox" id="soundNotification" class="switch-input">
+              <span class="switch-slider"></span>
+            </div>
+          </label>
+          <p class="setting-description">运动开始和结束时播放提示音</p>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">桌面通知</span>
+            <div class="switch-container">
+              <input type="checkbox" id="desktopNotification" class="switch-input">
+              <span class="switch-slider"></span>
+            </div>
+          </label>
+          <p class="setting-description">通过系统通知提醒您进行颈椎运动</p>
+        </div>
+      </section>
+
+      <!-- 高级设置 -->
+      <section class="settings-section">
+        <h2>高级设置</h2>
+        
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">智能暂停</span>
+            <div class="switch-container">
+              <input type="checkbox" id="smartPause" class="switch-input" checked>
+              <span class="switch-slider"></span>
+            </div>
+          </label>
+          <p class="setting-description">检测到用户正在输入或观看视频时自动暂停提醒</p>
+        </div>
+
+        <div class="setting-item">
+          <label class="setting-label">
+            <span class="label-text">工作时间模式</span>
+            <div class="switch-container">
+              <input type="checkbox" id="workingHours" class="switch-input">
+              <span class="switch-slider"></span>
+            </div>
+          </label>
+          <div class="time-range" id="timeRangeContainer" style="display: none;">
+            <div class="time-input-group">
+              <label>开始时间</label>
+              <input type="time" id="startTime" value="09:00">
+            </div>
+            <div class="time-input-group">
+              <label>结束时间</label>
+              <input type="time" id="endTime" value="18:00">
+            </div>
+          </div>
+          <p class="setting-description">仅在指定的工作时间内启用提醒功能</p>
+        </div>
+      </section>
+
+      <!-- 统计信息 -->
+      <section class="settings-section">
+        <h2>使用统计</h2>
+        
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value" id="totalExercises">0</div>
+            <div class="stat-label">总运动次数</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="totalTime">0分钟</div>
+            <div class="stat-label">总运动时间</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="streakDays">0天</div>
+            <div class="stat-label">连续使用天数</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="todayExercises">0</div>
+            <div class="stat-label">今日运动次数</div>
+          </div>
+        </div>
+        
+        <div class="stats-actions">
+          <button id="resetStats" class="btn btn-secondary">重置统计</button>
+          <button id="exportStats" class="btn btn-primary">导出数据</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- 底部 -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-actions">
+          <button id="saveSettings" class="btn btn-primary">保存设置</button>
+          <button id="resetSettings" class="btn btn-secondary">恢复默认</button>
+        </div>
+        <div class="footer-info">
+          <p>颈椎治疗助手 v1.0.0 | 关爱您的颈椎健康</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 确认对话框 -->
+  <div id="confirmDialog" class="dialog-overlay" style="display: none;">
+    <div class="dialog">
+      <div class="dialog-header">
+        <h3 id="dialogTitle">确认操作</h3>
+      </div>
+      <div class="dialog-body">
+        <p id="dialogMessage">您确定要执行此操作吗？</p>
+      </div>
+      <div class="dialog-footer">
+        <button id="dialogCancel" class="btn btn-secondary">取消</button>
+        <button id="dialogConfirm" class="btn btn-primary">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通知提示 -->
+  <div id="notification" class="notification" style="display: none;">
+    <div class="notification-content">
+      <span id="notificationMessage"></span>
+      <button id="notificationClose" class="notification-close">&times;</button>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

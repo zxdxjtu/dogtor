@@ -1,0 +1,65 @@
+{
+  "name": "neck-therapy-extension",
+  "version": "1.0.0",
+  "description": "颈椎治疗助手 - 专业的颈椎健康管理Chrome扩展",
+  "main": "background/service-worker.js",
+  "scripts": {
+    "dev": "web-ext run --source-dir=. --target=chromium",
+    "build": "web-ext build --source-dir=. --artifacts-dir=dist",
+    "check": "npm run lint && npm run type-check",
+    "lint": "eslint . --ext .js --fix",
+    "type-check": "echo 'Type checking completed - no TypeScript files to check'",
+    "test": "echo 'No tests specified yet'",
+    "package": "npm run build",
+    "clean": "rm -rf dist node_modules",
+    "install-dev": "npm install --save-dev eslint web-ext"
+  },
+  "keywords": [
+    "chrome-extension",
+    "neck-therapy",
+    "health",
+    "ergonomics",
+    "wellness",
+    "productivity"
+  ],
+  "author": "Dogtor Health",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dogtor-health/neck-therapy-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dogtor-health/neck-therapy-extension/issues"
+  },
+  "homepage": "https://github.com/dogtor-health/neck-therapy-extension#readme",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "web-ext": "^7.12.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Edge versions"
+  ],
+  "manifest": {
+    "version": 3,
+    "permissions": [
+      "storage",
+      "alarms",
+      "activeTab"
+    ]
+  },
+  "files": [
+    "manifest.json",
+    "background/",
+    "content/",
+    "popup/",
+    "options/",
+    "icons/",
+    "utils/",
+    "assets/"
+  ]
+}
