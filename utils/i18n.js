@@ -99,7 +99,7 @@ const translations = {
   en: {
     // Popup界面
     appTitle: 'Dogtor',
-    appSubtitle: 'Cervical Spine Health Assistant',
+    appSubtitle: 'Cervical Spine Health',
     autoRotationTitle: 'Auto Rotation Reminder',
     rotationAngleTitle: 'Rotation Angle',
     rotationCycleTitle: 'Rotation Cycle',
@@ -195,18 +195,25 @@ class I18nManager {
   constructor() {
     this.currentLanguage = 'en'; // 默认英文
     this.translations = translations;
-    this.init();
+    this.isInitialized = false;
   }
 
   async init() {
+    if (this.isInitialized) {
+      return;
+    }
+    console.log('Initializing i18n system...');
     // 从存储中加载语言设置
     await this.loadLanguage();
+    this.isInitialized = true;
+    console.log('I18n system initialized, current language:', this.currentLanguage);
   }
 
   async loadLanguage() {
     try {
       const result = await chrome.storage.sync.get(['language']);
       this.currentLanguage = result.language || 'en'; // 默认英文
+      console.log('Loaded language preference:', this.currentLanguage);
     } catch (error) {
       console.warn('Failed to load language preference:', error);
       this.currentLanguage = 'en';
@@ -217,6 +224,7 @@ class I18nManager {
     try {
       await chrome.storage.sync.set({ language });
       this.currentLanguage = language;
+      console.log('Language preference saved:', language);
     } catch (error) {
       console.error('Failed to save language preference:', error);
     }

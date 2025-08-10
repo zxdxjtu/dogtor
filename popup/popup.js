@@ -10,20 +10,8 @@ const MessageTypes = {
   SETTINGS_CHANGED: 'settings_changed'
 };
 
-// DOM元素引用
-const elements = {
-  enableSwitch: document.getElementById('enableSwitch'),
-  angleSlider: document.getElementById('angleSlider'),
-  angleValue: document.getElementById('angleValue'),
-  angleLine: document.getElementById('angleLine'),
-  frequencySlider: document.getElementById('frequencySlider'),
-  frequencyValue: document.getElementById('frequencyValue'),
-  frequencyText: document.getElementById('frequencyText'),
-  statusSection: document.getElementById('statusSection'),
-  statusText: document.getElementById('statusText'),
-  languageToggle: document.getElementById('languageToggle'),
-  currentLang: document.getElementById('currentLang')
-};
+// DOM元素引用 - 延迟初始化
+let elements = {};
 
 // 应用状态
 let appState = {
@@ -41,14 +29,51 @@ class PopupApp {
   }
 
   async initializeI18n() {
-    // 等待国际化系统初始化
-    await window.i18n.init();
-    this.updateLanguageDisplay();
-    this.updateI18nContent();
-    this.initializeElements();
-    this.bindEvents();
-    this.loadState();
-    this.startStatusUpdater();
+    try {
+      // 初始化DOM元素引用
+      this.initializeDOMElements();
+
+      // 确保i18n系统可用
+      if (!window.i18n) {
+        console.error('i18n system not available!');
+        return;
+      }
+
+      // 等待国际化系统初始化
+      await window.i18n.init();
+
+      this.updateLanguageDisplay();
+      this.updateI18nContent();
+      this.initializeElements();
+      this.bindEvents();
+      this.loadState();
+      this.startStatusUpdater();
+    } catch (error) {
+      console.error('App initialization failed:', error);
+    }
+  }
+
+  initializeDOMElements() {
+    elements = {
+      enableSwitch: document.getElementById('enableSwitch'),
+      angleSlider: document.getElementById('angleSlider'),
+      angleValue: document.getElementById('angleValue'),
+      angleLine: document.getElementById('angleLine'),
+      frequencySlider: document.getElementById('frequencySlider'),
+      frequencyText: document.getElementById('frequencyText'),
+      statusSection: document.getElementById('statusSection'),
+      statusText: document.getElementById('statusText'),
+      languageToggle: document.getElementById('languageToggle'),
+      currentLang: document.getElementById('currentLang')
+    };
+
+    // 验证关键元素是否存在
+    if (!elements.languageToggle) {
+      console.error('Language toggle button not found!');
+    }
+    if (!elements.currentLang) {
+      console.error('Current language display not found!');
+    }
   }
 
   initializeElements() {
@@ -56,10 +81,10 @@ class PopupApp {
     elements.angleSlider.value = appState.rotationAngle;
     elements.angleValue.textContent = `${appState.rotationAngle}°`;
     elements.frequencySlider.value = appState.cycleDuration;
-    elements.frequencyValue.textContent = appState.cycleDuration;
 
-    // 更新角度线
+    // 更新角度线和频率文本
     this.updateAngleLine(appState.rotationAngle);
+    this.updateFrequencyText(appState.cycleDuration);
   }
 
   bindEvents() {
@@ -81,9 +106,15 @@ class PopupApp {
     });
 
     // 语言切换事件
-    elements.languageToggle.addEventListener('click', () => {
-      this.handleLanguageToggle();
-    });
+    if (elements.languageToggle) {
+      elements.languageToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.handleLanguageToggle();
+      });
+    } else {
+      console.error('Language toggle button not found, cannot bind event');
+    }
   }
 
   async loadState() {
@@ -145,7 +176,7 @@ class PopupApp {
 
     // 更新频率
     elements.frequencySlider.value = appState.cycleDuration;
-    elements.frequencyValue.textContent = appState.cycleDuration;
+    this.updateFrequencyText(appState.cycleDuration);
 
     // 更新状态显示
     this.updateStatusDisplay();
@@ -174,17 +205,28 @@ class PopupApp {
     this.updateAngleLine(appState.rotationAngle);
 
     elements.frequencySlider.value = appState.cycleDuration;
-    elements.frequencyValue.textContent = appState.cycleDuration;
+    this.updateFrequencyText(appState.cycleDuration);
 
     // 更新状态显示
     this.updateStatusDisplay();
   }
 
   updateAngleLine(angle) {
-    // 计算角度线的位置
+    if (!elements.angleLine) {
+      console.error('Angle line element not found');
+      return;
+    }
+
+    // SVG坐标系：中心点(96, 80)，半径70
+    // 角度从垂直向上开始，正值顺时针
     const radian = (angle * Math.PI) / 180;
-    const x = 96 + 70 * Math.cos(Math.PI - radian);
-    const y = 80 - 70 * Math.sin(Math.PI - radian);
+    const centerX = 96;
+    const centerY = 80;
+    const radius = 70;
+
+    // 计算角度线终点：0度指向正上方，正值顺时针旋转
+    const x = centerX + radius * Math.sin(radian);
+    const y = centerY - radius * Math.cos(radian);
 
     elements.angleLine.setAttribute('x2', x);
     elements.angleLine.setAttribute('y2', y);
@@ -256,7 +298,6 @@ class PopupApp {
 
   async handleFrequencyChange(frequency) {
     appState.cycleDuration = frequency;
-    elements.frequencyValue.textContent = frequency;
 
     // 更新频率显示文本
     this.updateFrequencyText(frequency);
