@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>连接稳定性测试 - 颈椎治疗插件</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .log-area {
+            background: #000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+    </style>
+</head>
+<body>
+    <h1>颈椎治疗插件 - 连接稳定性测试</h1>
+    
+    <div class="test-section">
+        <h2>测试说明</h2>
+        <p>此页面用于测试修复后的Service Worker与Content Script连接稳定性：</p>
+        <ul>
+            <li>测试Content Script注入检测机制</li>
+            <li>测试消息发送重试机制</li>
+            <li>测试动态注入功能</li>
+            <li>测试错误处理和恢复能力</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>测试控制</h2>
+        <button class="test-button" onclick="testContentScriptInjection()">测试Content Script注入</button>
+        <button class="test-button" onclick="testMessageRetry()">测试消息重试机制</button>
+        <button class="test-button" onclick="testErrorRecovery()">测试错误恢复</button>
+        <button class="test-button" onclick="simulateRotation()">模拟旋转序列</button>
+        <button class="test-button" onclick="clearLog()">清空日志</button>
+    </div>
+
+    <div class="test-section">
+        <h2>测试状态</h2>
+        <div id="status" class="status">等待测试...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>测试日志</h2>
+        <div id="log" class="log-area">测试日志将在这里显示...
+</div>
+    </div>
+
+    <script src="test-connection-stability.js"></script>
+</body>
+</html>

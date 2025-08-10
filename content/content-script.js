@@ -370,6 +370,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   // 处理消息
   switch (message.type) {
+  case 'PING': {
+    // 响应Service Worker的连接检测
+    sendResponse({ success: true, timestamp: Date.now() });
+    break;
+  }
+
   case MessageTypes.EXECUTE_SEQUENCE: {
     // 检查用户体验保护
     if (UXProtection.isUserInteracting()) {

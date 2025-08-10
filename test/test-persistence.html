@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>颈椎治疗助手 - 状态持久化测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background: #0056CC;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .clear-btn {
+            background: #FF3B30;
+        }
+        
+        .clear-btn:hover {
+            background: #D70015;
+        }
+        
+        .status {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .status h3 {
+            margin: 0 0 12px 0;
+            color: #495057;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 4px 0;
+        }
+        
+        .status-label {
+            font-weight: 500;
+            color: #6c757d;
+        }
+        
+        .status-value {
+            color: #212529;
+            font-family: monospace;
+        }
+        
+        .log-container {
+            background: #1a1a1a;
+            color: #00ff00;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        
+        .success {
+            color: #28a745;
+        }
+        
+        .error {
+            color: #dc3545;
+        }
+        
+        .warning {
+            color: #ffc107;
+        }
+        
+        .info {
+            color: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 颈椎治疗助手 - 状态持久化测试</h1>
+        
+        <div class="test-controls">
+            <button id="runTestsBtn">运行所有测试</button>
+            <button id="getStateBtn">获取当前状态</button>
+            <button id="clearStorageBtn" class="clear-btn">清除存储</button>
+        </div>
+        
+        <div class="status" id="statusSection">
+            <h3>当前状态</h3>
+            <div class="status-item">
+                <span class="status-label">扩展状态:</span>
+                <span class="status-value" id="extensionStatus">未知</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">是否启用:</span>
+                <span class="status-value" id="isEnabled">未知</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">是否活动:</span>
+                <span class="status-value" id="isActive">未知</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">旋转角度:</span>
+                <span class="status-value" id="rotationAngle">未知</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">周期时长:</span>
+                <span class="status-value" id="cycleDuration">未知</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">下次旋转:</span>
+                <span class="status-value" id="nextRotation">未知</span>
+            </div>
+        </div>
+        
+        <div class="log-container" id="logContainer">
+            <div class="info">等待测试开始...</div>
+        </div>
+    </div>
+    
+    <script>
+        // 日志记录
+        const logContainer = document.getElementById('logContainer');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        
+        // 清除日志
+        function clearLog() {
+            logContainer.innerHTML = '';
+        }
+        
+        // 发送消息到扩展
+        function sendMessage(message) {
+            return new Promise((resolve) => {
+                if (typeof chrome === 'undefined' || !chrome.runtime) {
+                    resolve({ success: false, error: '扩展环境不可用' });
+                    return;
+                }
+                
+                chrome.runtime.sendMessage(message, (response) => {
+                    if (chrome.runtime.lastError) {
+                        resolve({ success: false, error: chrome.runtime.lastError.message });
+                    } else {
+                        resolve(response || { success: false, error: '无响应' });
+                    }
+                });
+            });
+        }
+        
+        // 更新状态显示
+        async function updateStatus() {
+            try {
+                const response = await sendMessage({ type: 'get_state' });
+                
+                if (response.success) {
+                    const { state, settings } = response;
+                    
+                    document.getElementById('extensionStatus').textContent = '正常';
+                    document.getElementById('isEnabled').textContent = settings.isEnabled ? '是' : '否';
+                    document.getElementById('isActive').textContent = state.isActive ? '是' : '否';
+                    document.getElementById('rotationAngle').textContent = `${settings.rotationAngle}°`;
+                    document.getElementById('cycleDuration').textContent = `${settings.cycleDuration / 60000}分钟`;
+                    
+                    if (state.nextRotationTime) {
+                        const nextTime = new Date(state.nextRotationTime);
+                        document.getElementById('nextRotation').textContent = nextTime.toLocaleTimeString();
+                    } else {
+                        document.getElementById('nextRotation').textContent = '无';
+                    }
+                } else {
+                    document.getElementById('extensionStatus').textContent = `错误: ${response.error}`;
+                }
+            } catch (error) {
+                document.getElementById('extensionStatus').textContent = `异常: ${error.message}`;
+            }
+        }
+        
+        // 运行测试
+        async function runTests() {
+            clearLog();
+            log('开始状态持久化测试...', 'info');
+            
+            const testCases = [
+                {
+                    name: '测试默认设置加载',
+                    test: async () => {
+                        log('清除所有存储...', 'info');
+                        await chrome.storage.sync.clear();
+                        await chrome.storage.local.clear();
+                        
+                        const response = await sendMessage({ type: 'get_state' });
+                        log(`默认状态: ${JSON.stringify(response, null, 2)}`, 'info');
+                        
+                        return response.success && !response.settings.isEnabled;
+                    }
+                },
+                {
+                    name: '测试设置保存',
+                    test: async () => {
+                        const testSettings = {
+                            isEnabled: true,
+                            rotationAngle: 20,
+                            cycleDuration: 15 * 60 * 1000,
+                            rotationDuration: 45 * 1000,
+                            showIndicator: true
+                        };
+                        
+                        log('保存测试设置...', 'info');
+                        const saveResponse = await sendMessage({
+                            type: 'settings_changed',
+                            payload: testSettings
+                        });
+                        
+                        if (!saveResponse.success) {
+                            log(`设置保存失败: ${saveResponse.error}`, 'error');
+                            return false;
+                        }
+                        
+                        const getResponse = await sendMessage({ type: 'get_state' });
+                        log(`保存后的设置: ${JSON.stringify(getResponse.settings, null, 2)}`, 'info');
+                        
+                        return getResponse.success && 
+                               getResponse.settings.isEnabled === testSettings.isEnabled &&
+                               getResponse.settings.rotationAngle === testSettings.rotationAngle;
+                    }
+                },
+                {
+                    name: '测试启动状态持久化',
+                    test: async () => {
+                        log('启动旋转...', 'info');
+                        const startResponse = await sendMessage({
+                            type: 'start_rotation',
+                            payload: {
+                                settings: {
+                                    isEnabled: true,
+                                    rotationAngle: 15,
+                                    cycleDuration: 10 * 60 * 1000,
+                                    rotationDuration: 30 * 1000,
+                                    showIndicator: true
+                                }
+                            }
+                        });
+                        
+                        if (!startResponse.success) {
+                            log(`启动失败: ${startResponse.error}`, 'error');
+                            return false;
+                        }
+                        
+                        const getResponse = await sendMessage({ type: 'get_state' });
+                        log(`启动后的状态: ${JSON.stringify(getResponse, null, 2)}`, 'info');
+                        
+                        return getResponse.success && 
+                               getResponse.settings.isEnabled === true &&
+                               getResponse.state.isActive === true;
+                    }
+                },
+                {
+                    name: '测试停止状态持久化',
+                    test: async () => {
+                        log('停止旋转...', 'info');
+                        const stopResponse = await sendMessage({ type: 'stop_rotation' });
+                        
+                        if (!stopResponse.success) {
+                            log(`停止失败: ${stopResponse.error}`, 'error');
+                            return false;
+                        }
+                        
+                        const getResponse = await sendMessage({ type: 'get_state' });
+                        log(`停止后的状态: ${JSON.stringify(getResponse, null, 2)}`, 'info');
+                        
+                        return getResponse.success && 
+                               getResponse.settings.isEnabled === false &&
+                               getResponse.state.isActive === false;
+                    }
+                }
+            ];
+            
+            let passedTests = 0;
+            let totalTests = testCases.length;
+            
+            for (const testCase of testCases) {
+                log(`\n运行测试: ${testCase.name}`, 'info');
+                
+                try {
+                    const result = await testCase.test();
+                    
+                    if (result) {
+                        log(`✅ ${testCase.name} - 通过`, 'success');
+                        passedTests++;
+                    } else {
+                        log(`❌ ${testCase.name} - 失败`, 'error');
+                    }
+                } catch (error) {
+                    log(`❌ ${testCase.name} - 错误: ${error.message}`, 'error');
+                }
+                
+                // 更新状态显示
+                await updateStatus();
+                
+                // 测试间隔
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            
+            log(`\n测试完成: ${passedTests}/${totalTests} 通过`, 'info');
+            
+            if (passedTests === totalTests) {
+                log('🎉 所有测试通过！状态持久化功能正常工作。', 'success');
+            } else {
+                log('⚠️ 部分测试失败，需要检查状态持久化实现。', 'warning');
+            }
+        }
+        
+        // 清除存储
+        async function clearStorage() {
+            try {
+                await chrome.storage.sync.clear();
+                await chrome.storage.local.clear();
+                log('存储已清除', 'info');
+                await updateStatus();
+            } catch (error) {
+                log(`清除存储失败: ${error.message}`, 'error');
+            }
+        }
+        
+        // 事件监听器
+        document.getElementById('runTestsBtn').addEventListener('click', runTests);
+        document.getElementById('getStateBtn').addEventListener('click', updateStatus);
+        document.getElementById('clearStorageBtn').addEventListener('click', clearStorage);
+        
+        // 页面加载时更新状态
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStatus();
+            log('测试页面已加载，可以开始测试', 'info');
+        });
+    </script>
+</body>
+</html>

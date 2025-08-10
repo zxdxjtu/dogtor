@@ -48,6 +48,28 @@ class StateManager {
       const localResult = await chrome.storage.local.get(['runtime_state']);
       if (localResult.runtime_state) {
         this.state = { ...DEFAULT_STATE, ...localResult.runtime_state };
+        // 如果之前是启用状态，但没有活动的定时器，需要重新启动
+        if (this.state.isActive && this.settings.isEnabled) {
+          console.log('Restoring active rotation cycle after restart');
+          // 重新计算下次旋转时间
+          if (this.state.nextRotationTime && this.state.nextRotationTime > Date.now()) {
+            const remainingTime = this.state.nextRotationTime - Date.now();
+            const delayInMinutes = remainingTime / (1000 * 60);
+            await chrome.alarms.create('rotationCycle', {
+              delayInMinutes: Math.max(0.1, delayInMinutes), // 至少0.1分钟
+              periodInMinutes: this.settings.cycleDuration / (1000 * 60)
+            });
+          } else {
+            // 如果时间已过，立即开始新的周期
+            const delayInMinutes = this.settings.cycleDuration / (1000 * 60);
+            await chrome.alarms.create('rotationCycle', {
+              delayInMinutes: delayInMinutes,
+              periodInMinutes: delayInMinutes
+            });
+            this.state.nextRotationTime = Date.now() + this.settings.cycleDuration;
+            await this.updateState({ nextRotationTime: this.state.nextRotationTime });
+          }
+        }
       }
 
       console.log('StateManager initialized:', { settings: this.settings, state: this.state });
@@ -170,10 +192,14 @@ class MessageHandler {
     if (payload && payload.settings) {
       await this.stateManager.updateSettings(payload.settings);
     }
+    // 确保isEnabled状态也被更新
+    await this.stateManager.updateSettings({ isEnabled: true });
     return await this.timerManager.startRotationCycle();
   }
 
   async handleStopRotation() {
+    // 确保isEnabled状态也被更新
+    await this.stateManager.updateSettings({ isEnabled: false });
     return await this.timerManager.stopRotationCycle();
   }
 
@@ -238,6 +264,95 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true;
 });
 
+// 页面兼容性检测
+class PageCompatibilityChecker {
+  static isSpecialPage(url) {
+    const specialProtocols = ['chrome:', 'chrome-extension:', 'moz-extension:', 'edge:', 'about:'];
+    const specialPages = ['chrome://newtab/', 'chrome://extensions/', 'chrome://settings/'];
+    
+    return specialProtocols.some(protocol => url.startsWith(protocol)) ||
+           specialPages.some(page => url.includes(page));
+  }
+
+  static async checkTabCompatibility(tabId) {
+    try {
+      const tab = await chrome.tabs.get(tabId);
+      if (!tab || !tab.url) {
+        return { compatible: false, reason: 'Invalid tab or URL' };
+      }
+
+      if (this.isSpecialPage(tab.url)) {
+        return { compatible: false, reason: 'Special page not supported', url: tab.url };
+      }
+
+      return { compatible: true, url: tab.url };
+    } catch (error) {
+      return { compatible: false, reason: 'Tab access error', error: error.message };
+    }
+  }
+}
+
+// Content Script 连接管理器
+class ContentScriptManager {
+  static async checkContentScriptInjected(tabId) {
+    try {
+      const response = await chrome.tabs.sendMessage(tabId, {
+        type: 'PING',
+        timestamp: Date.now()
+      });
+      return response && response.success;
+    } catch (error) {
+      console.log('Content script not responding:', error.message);
+      return false;
+    }
+  }
+
+  static async injectContentScript(tabId) {
+    try {
+      await chrome.scripting.executeScript({
+        target: { tabId: tabId },
+        files: ['content/content-script.js']
+      });
+      console.log('Content script injected successfully for tab:', tabId);
+      return true;
+    } catch (error) {
+      console.error('Failed to inject content script:', error);
+      return false;
+    }
+  }
+
+  static async sendMessageWithRetry(tabId, message, maxRetries = 3) {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`Sending message to tab ${tabId}, attempt ${attempt}:`, message.type);
+        
+        const response = await chrome.tabs.sendMessage(tabId, message);
+        console.log('Message sent successfully:', response);
+        return response;
+      } catch (error) {
+        console.warn(`Message sending failed (attempt ${attempt}/${maxRetries}):`, error.message);
+        
+        if (attempt < maxRetries) {
+          // 检查是否需要重新注入Content Script
+          if (error.message.includes('Could not establish connection')) {
+            console.log('Attempting to re-inject content script...');
+            const injected = await this.injectContentScript(tabId);
+            if (injected) {
+              // 等待一下让Content Script初始化
+              await new Promise(resolve => setTimeout(resolve, 500));
+            }
+          } else {
+            // 其他错误，等待后重试
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+        } else {
+          throw error;
+        }
+      }
+    }
+  }
+}
+
 // 定时器触发事件
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'rotationCycle') {
@@ -254,8 +369,28 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       const activeTab = tabs[0];
       const settings = stateManager.getSettings();
 
+      // 检查页面兼容性
+      const compatibility = await PageCompatibilityChecker.checkTabCompatibility(activeTab.id);
+      if (!compatibility.compatible) {
+        console.log('Tab not compatible for rotation:', compatibility.reason, compatibility.url);
+        return;
+      }
+
       // 更新活动标签页ID
       await stateManager.updateState({ activeTabId: activeTab.id });
+
+      // 检查Content Script是否已注入
+      const isInjected = await ContentScriptManager.checkContentScriptInjected(activeTab.id);
+      if (!isInjected) {
+        console.log('Content script not detected, attempting injection...');
+        const injected = await ContentScriptManager.injectContentScript(activeTab.id);
+        if (!injected) {
+          console.error('Failed to inject content script, skipping rotation');
+          return;
+        }
+        // 等待Content Script初始化
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
 
       // 向Content Script发送执行旋转序列的消息
       const message = {
@@ -268,18 +403,32 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
         timestamp: Date.now()
       };
 
-      await chrome.tabs.sendMessage(activeTab.id, message);
+      const response = await ContentScriptManager.sendMessageWithRetry(activeTab.id, message);
+      
+      if (response && response.success) {
+        // 更新统计数据
+        const currentState = stateManager.getState();
+        await stateManager.updateState({
+          totalRotations: currentState.totalRotations + 1,
+          nextRotationTime: Date.now() + settings.cycleDuration
+        });
+        console.log('Rotation sequence completed successfully for tab:', activeTab.id);
+      } else {
+        console.warn('Rotation sequence failed or returned error:', response);
+      }
 
-      // 更新统计数据
-      const currentState = stateManager.getState();
-      await stateManager.updateState({
-        totalRotations: currentState.totalRotations + 1,
-        nextRotationTime: Date.now() + settings.cycleDuration
-      });
-
-      console.log('Rotation sequence initiated for tab:', activeTab.id);
     } catch (error) {
       console.error('Failed to execute rotation sequence:', error);
+      
+      // 记录详细错误信息
+      const errorDetails = {
+        message: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString(),
+        tabId: tabs.length > 0 ? tabs[0].id : null,
+        tabUrl: tabs.length > 0 ? tabs[0].url : null
+      };
+      console.error('Detailed error information:', errorDetails);
     }
   }
 });

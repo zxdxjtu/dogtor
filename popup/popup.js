@@ -86,8 +86,8 @@ class PopupApp {
           nextRotationTime: state.nextRotationTime
         };
 
-        // 更新UI
-        this.updateUI();
+        // 静默更新UI（不触发动画）
+        this.updateUIWithoutAnimation();
         console.log('State loaded:', appState);
       }
     } catch (error) {
@@ -113,6 +113,35 @@ class PopupApp {
     this.updateStatusDisplay();
   }
 
+  updateUIWithoutAnimation() {
+    // 临时禁用CSS过渡动画
+    const switchElement = elements.enableSwitch;
+    const originalTransition = switchElement.style.transition;
+    switchElement.style.transition = 'none';
+    
+    // 更新开关状态（无动画）
+    switchElement.checked = appState.isEnabled;
+    
+    // 强制重绘
+    switchElement.offsetHeight;
+    
+    // 恢复CSS过渡动画
+    setTimeout(() => {
+      switchElement.style.transition = originalTransition;
+    }, 0);
+    
+    // 更新其他UI元素
+    elements.angleSlider.value = appState.rotationAngle;
+    elements.angleValue.textContent = `${appState.rotationAngle}°`;
+    this.updateAngleLine(appState.rotationAngle);
+    
+    elements.frequencySlider.value = appState.cycleDuration;
+    elements.frequencyValue.textContent = appState.cycleDuration;
+    
+    // 更新状态显示
+    this.updateStatusDisplay();
+  }
+
   updateAngleLine(angle) {
     // 计算角度线的位置
     const radian = (angle * Math.PI) / 180;
@@ -125,8 +154,6 @@ class PopupApp {
 
   async handleToggleChange(enabled) {
     try {
-      appState.isEnabled = enabled;
-
       if (enabled) {
         // 启动旋转
         const settings = {
@@ -143,6 +170,7 @@ class PopupApp {
         });
 
         if (response && response.success) {
+          appState.isEnabled = true;
           appState.isActive = true;
           appState.nextRotationTime = response.nextRotationTime;
           this.updateStatusDisplay();
@@ -157,6 +185,7 @@ class PopupApp {
         });
 
         if (response && response.success) {
+          appState.isEnabled = false;
           appState.isActive = false;
           appState.nextRotationTime = null;
           this.updateStatusDisplay();
@@ -171,6 +200,8 @@ class PopupApp {
       // 回滚开关状态
       elements.enableSwitch.checked = !enabled;
       appState.isEnabled = !enabled;
+      // 重新加载状态以确保同步
+      setTimeout(() => this.loadState(), 100);
     }
   }
 
@@ -216,10 +247,16 @@ class PopupApp {
           this.updateStatusDisplay();
         }
         console.log('Settings updated successfully');
+        // 显示成功提示
+        this.showSuccess('设置已保存');
+      } else {
+        throw new Error(response?.error || '设置更新失败');
       }
     } catch (error) {
       console.error('Failed to update settings:', error);
       this.showError('设置更新失败');
+      // 重新加载状态以确保同步
+      setTimeout(() => this.loadState(), 100);
     }
   }
 
