@@ -4,6 +4,8 @@
   <img src="images/dogtor.png" alt="颈椎治疗助手Logo" width="128" height="128">
   <h3>专为颈椎健康设计的Chrome扩展</h3>
   <p>通过周期性网页旋转锻炼预防颈椎劳损</p>
+  
+  <p><strong>🏆 TRAE Hackathon Hangzhou 1st Prize 🏆</strong></p>
 </div>
 
 ## 🌟 项目概述
@@ -195,7 +197,8 @@ neck-therapy-extension/
 ## 📋 项目文档
 
 详细的项目文档和开发见解，请访问：
-[项目文档](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
+- [项目文档](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
+- [插件开发文档](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf?from=from_copylink)
 
 ## 📞 支持
 

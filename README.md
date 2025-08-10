@@ -4,6 +4,8 @@
   <img src="images/dogtor.png" alt="Neck Therapy Assistant Logo" width="128" height="128">
   <h3>A Chrome Extension for Cervical Spine Health</h3>
   <p>Help prevent neck strain through periodic webpage rotation exercises</p>
+  
+  <p><strong>🏆 TRAE Hackathon Hangzhou 1st Prize 🏆</strong></p>
 </div>
 
 ## 🌟 Overview
@@ -195,7 +197,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📋 Project Documentation
 
 For detailed project documentation and development insights, please visit:
-[Project Documentation](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
+- [Project Documentation](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
+- [Plugin Development Documentation](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf?from=from_copylink)
 
 ## 📞 Support
 
