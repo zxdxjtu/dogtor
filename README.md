@@ -186,10 +186,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
+- **Trae Hackathon Hangzhou** - Special thanks for providing the platform and support for this project
 - Chrome Extension documentation and community
-- CSS Transform and Animation specifications
+- CSS Transform and animation specifications
 - Ergonomic research on computer-related neck strain
 - Open source contributors and testers
+
+## 📋 Project Documentation
+
+For detailed project documentation and development insights, please visit:
+[Project Documentation](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
 
 ## 📞 Support
 

@@ -186,10 +186,16 @@ neck-therapy-extension/
 
 ## 🙏 致谢
 
+- **Trae Hackathon Hangzhou** - 特别感谢为本项目提供平台和支持
 - Chrome扩展文档和社区
 - CSS Transform和动画规范
 - 计算机相关颈椎劳损的人体工程学研究
 - 开源贡献者和测试人员
+
+## 📋 项目文档
+
+详细的项目文档和开发见解，请访问：
+[项目文档](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
 
 ## 📞 支持
 
