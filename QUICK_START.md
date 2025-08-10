@@ -1,224 +1,202 @@
 # Quick Start Guide
 
-Welcome to the Neck Therapy Chrome Extension! This guide will help you get up and running quickly with your new neck health companion.
+## 🚀 Get Started in 3 Minutes
 
-## 📋 Table of Contents
+Welcome to Neck Therapy Assistant! This guide will help you install and start using the extension immediately.
 
-- [Installation](#-installation)
-- [First Time Setup](#-first-time-setup)
-- [Basic Usage](#-basic-usage)
-- [Customizing Settings](#-customizing-settings)
-- [Understanding the Interface](#-understanding-the-interface)
-- [Troubleshooting](#-troubleshooting)
-- [Tips for Best Results](#-tips-for-best-results)
+## 📦 Installation
 
-## 🚀 Installation
+### Method 1: Load from Source (Recommended for Development)
 
-### Method 1: Chrome Web Store (Coming Soon)
-1. Visit the Chrome Web Store
-2. Search for "Neck Therapy Extension"
-3. Click **Add to Chrome**
-4. Click **Add extension** when prompted
+1. **Download the Extension**
+   ```bash
+   git clone https://github.com/your-username/neck-therapy-extension.git
+   cd neck-therapy-extension
+   ```
 
-### Method 2: Manual Installation (Developer Mode)
-1. Download the extension files from GitHub
-2. Open Chrome and go to `chrome://extensions/`
-3. Enable **Developer mode** (toggle in top-right corner)
-4. Click **Load unpacked**
-5. Select the downloaded extension folder
-6. The extension icon ![icon](icons/icon-16.png) should appear in your toolbar
+2. **Open Chrome Extensions Page**
+   - Type `chrome://extensions/` in your address bar
+   - Or go to Chrome Menu → More Tools → Extensions
 
-## 🎯 First Time Setup
+3. **Enable Developer Mode**
+   - Toggle the "Developer mode" switch in the top-right corner
 
-### Step 1: Locate the Extension
-- Look for the extension icon ![icon](icons/icon-16.png) in your Chrome toolbar
-- If you don't see it, click the puzzle piece icon and pin the extension
+4. **Load the Extension**
+   - Click "Load unpacked"
+   - Select the `neck-therapy-extension` folder
+   - The extension icon should appear in your toolbar
 
-### Step 2: Initial Configuration
-1. Click the extension icon to open the popup
-2. You'll see the main control panel with:
-   - **Power switch** (currently OFF)
-   - **Rotation angle setting** (default: 15°)
-   - **Frequency setting** (default: 10 minutes)
-   - **Status display**
+### Method 2: Chrome Web Store (Coming Soon)
 
-### Step 3: Enable the Extension
-1. Toggle the **main switch** to ON
-2. The extension will start monitoring and begin your first rotation cycle
-3. You'll see a countdown timer showing when the next rotation will occur
+- Visit the Chrome Web Store
+- Search for "Neck Therapy Assistant"
+- Click "Add to Chrome"
 
-## 🎮 Basic Usage
+## ⚡ First Use
 
-### Starting Your First Session
-1. **Enable**: Click the extension icon and toggle the switch to ON
-2. **Wait**: The first rotation will occur after your set interval (default: 10 minutes)
-3. **Experience**: When rotation begins, you'll see:
-   - The webpage gently rotating left (15°) for 30 seconds
-   - Then rotating right (15°) for another 30 seconds
-   - Finally returning to normal position
-4. **Continue**: The cycle automatically repeats based on your frequency setting
+### 1. Activate the Extension
 
-### Quick Controls
-- **Pause/Resume**: Toggle the main switch anytime
-- **Adjust on-the-fly**: Use the sliders in the popup for immediate changes
-- **Status Check**: View countdown timer and current settings
+1. **Click the Extension Icon** in your Chrome toolbar
+2. **Toggle the Switch** to enable automatic rotations
+3. **See the Status** - You'll see "Next reminder: X minutes"
 
-## ⚙️ Customizing Settings
+### 2. Experience Your First Rotation
 
-### Accessing Advanced Settings
-1. Right-click the extension icon
-2. Select **Options** from the context menu
-3. Or click the gear icon in the popup
+- Wait for the countdown to reach zero (or set a shorter interval for testing)
+- Watch as your webpage gently rotates:
+  - **Left rotation** (15°) for 30 seconds
+  - **Right rotation** (15°) for 30 seconds  
+  - **Return to normal** position
+- Follow the rotation with your head to exercise your neck
 
-### Key Settings to Configure
+### 3. Monitor Progress
 
-#### Basic Settings
-- **Enable Reminder**: Master on/off switch
-- **Rotation Angle**: 5° to 45° (recommended: 10-20°)
-- **Reminder Interval**: 1-60 minutes (recommended: 5-15 minutes)
-- **Exercise Duration**: 15-120 seconds per direction (recommended: 20-45 seconds)
+- **Status Indicator**: Small indicator in the top-right corner of pages
+- **Countdown Timer**: Shows time until next rotation
+- **Phase Display**: Shows current rotation phase (left/right/normal)
 
-#### Display Settings
-- **Show Indicator**: Display rotation status on pages
-- **Sound Notification**: Audio cues for rotation start/end
-- **Desktop Notification**: System notifications for reminders
+## ⚙️ Basic Settings
 
-#### Advanced Settings
-- **Smart Pause**: Automatically pause during user interactions
-- **Working Hours**: Limit rotations to specific time ranges
-- **Time Range**: Set start and end times for active periods
+### Access Settings
 
-### Recommended Settings for Beginners
-```
-Rotation Angle: 15°
-Reminder Interval: 10 minutes
-Exercise Duration: 30 seconds
-Show Indicator: ON
-Smart Pause: ON
-```
+1. Click the extension icon
+2. Click the gear (⚙️) icon to open options
+3. Or right-click the extension icon → "Options"
 
-## 🖥️ Understanding the Interface
+### Key Settings
 
-### Popup Panel Components
+| Setting | Default | Range | Description |
+|---------|---------|-------|-------------|
+| **Rotation Frequency** | 10 minutes | 1-60 minutes | How often rotations occur |
+| **Rotation Duration** | 30 seconds | 10-120 seconds | How long each rotation lasts |
+| **Rotation Angle** | 15 degrees | 5-45 degrees | How much the page rotates |
+| **Show Indicator** | On | On/Off | Display status indicator |
 
-#### Main Switch
-- **Green (ON)**: Extension is active and scheduling rotations
-- **Gray (OFF)**: Extension is paused, no rotations will occur
+### Quick Adjustments
 
-#### Rotation Angle Control
-- Visual arc showing current angle setting
-- Drag the control or use slider to adjust
-- Real-time preview of rotation range
+- **For Testing**: Set frequency to 1 minute
+- **For Intensive Work**: Set frequency to 30-60 minutes
+- **For Sensitive Users**: Reduce angle to 10 degrees
+- **For Discrete Use**: Turn off status indicator
 
-#### Frequency Control
-- Slider showing minutes between rotation cycles
-- Number display updates in real-time
-- Minimum 1 minute, maximum 60 minutes
+## 🎯 Usage Tips
 
-#### Status Display
-Shows current state:
-- **"Ready"**: Extension enabled, waiting for next cycle
-- **"Rotating Left"**: Currently in left rotation phase
-- **"Rotating Right"**: Currently in right rotation phase
-- **"Next in X:XX"**: Countdown to next rotation
+### Best Practices
 
-### Options Page Sections
+1. **Start Gradually**
+   - Begin with default settings (10 min frequency, 15° angle)
+   - Adjust based on comfort and work patterns
 
-#### Statistics Dashboard
-- **Total Exercises**: Lifetime rotation count
-- **Total Time**: Cumulative exercise duration
-- **Streak Days**: Consecutive days with activity
-- **Today's Exercises**: Current day rotation count
+2. **Follow the Rotation**
+   - Move your head to follow the screen rotation
+   - This provides the neck exercise benefit
+   - Don't fight the rotation - work with it
 
-#### Settings Panels
-- **Basic Settings**: Core functionality controls
-- **Display Settings**: Visual and audio preferences
-- **Advanced Settings**: Power user features
-- **Data Management**: Export, reset, and backup options
+3. **Timing Considerations**
+   - Enable during long work sessions
+   - Disable during video calls or presentations
+   - Use shorter intervals during intensive computer work
+
+### Smart Features
+
+- **Auto-Pause**: Automatically pauses during:
+  - Text input (typing in forms)
+  - Video playback
+  - User interaction with page elements
+
+- **Cross-Tab Sync**: Settings and status sync across all browser tabs
+
+- **Memory**: Remembers your preferences between browser sessions
 
 ## 🔧 Troubleshooting
 
 ### Common Issues
 
-#### Extension Not Working
-**Problem**: No rotations occurring despite being enabled
-**Solutions**:
-1. Check if you're on a supported page (not chrome:// pages)
-2. Refresh the current page
-3. Disable and re-enable the extension
-4. Check Chrome's extension permissions
+**Extension not working on some pages?**
+- Some special pages (chrome://, extension pages) are restricted
+- This is normal browser security behavior
 
-#### Rotations Not Smooth
-**Problem**: Jerky or slow animations
-**Solutions**:
-1. Close other resource-heavy tabs
-2. Update Chrome to the latest version
-3. Reduce rotation angle to 10-15°
-4. Check if hardware acceleration is enabled
+**Rotation feels too sudden?**
+- The rotation uses smooth CSS transitions
+- If it feels abrupt, try reducing the rotation angle
 
-#### Settings Not Saving
-**Problem**: Configuration changes don't persist
-**Solutions**:
-1. Make sure to click "Save Settings" in options
-2. Check Chrome storage permissions
-3. Try clearing extension data and reconfiguring
+**Want to pause temporarily?**
+- Click the extension icon and toggle off
+- Or simply start typing - it will auto-pause
 
-#### Rotations Interrupting Work
-**Problem**: Rotations occur during typing or important tasks
-**Solutions**:
-1. Enable "Smart Pause" in advanced settings
-2. Increase reminder interval
-3. Set working hours to exclude busy periods
-4. Use manual control when needed
+**Settings not saving?**
+- Make sure to click "Save" in the options page
+- Check that Chrome has permission to store data
 
-### Getting Help
-If you continue experiencing issues:
-1. Check the [GitHub Issues](https://github.com/your-username/neck-therapy-extension/issues) page
-2. Enable developer tools and check for console errors
-3. Submit a detailed bug report with your Chrome version and settings
+### Reset to Defaults
 
-## 💡 Tips for Best Results
+1. Open the options page
+2. Click "Reset to Defaults"
+3. Confirm the reset
+4. All settings return to original values
 
-### Health and Safety
-- **Start Gradually**: Begin with 15° angles and 10-minute intervals
-- **Listen to Your Body**: Reduce intensity if you feel discomfort
-- **Stay Consistent**: Regular small exercises are better than infrequent large ones
-- **Combine with Breaks**: Use rotations as reminders to take full breaks
+## 📱 Keyboard Shortcuts
 
-### Optimization Tips
-- **Peak Hours**: Set more frequent rotations during intensive work periods
-- **Angle Selection**: Larger angles (20-30°) for stronger exercise, smaller (10-15°) for subtle reminders
-- **Smart Scheduling**: Use working hours feature to avoid rotations during personal time
-- **Indicator Usage**: Keep indicators on initially to build awareness, then disable for less distraction
+| Action | Shortcut | Description |
+|--------|----------|-------------|
+| Toggle Extension | `Ctrl+Shift+N` | Quick enable/disable |
+| Open Options | `Ctrl+Shift+O` | Open settings page |
+| Force Rotation | `Ctrl+Shift+R` | Trigger immediate rotation |
 
-### Workplace Integration
-- **Team Awareness**: Let colleagues know about potential screen rotations during meetings
-- **Presentation Mode**: Disable before important presentations or screen sharing
-- **Dual Monitors**: Extension works best on primary monitor content
-- **Break Coordination**: Sync rotation intervals with existing break schedules
+*Note: Shortcuts can be customized in Chrome's extension shortcuts settings*
 
-### Performance Optimization
-- **Tab Management**: Extension works on active tab only, so organize your workflow accordingly
-- **Memory Usage**: Close unused tabs to ensure smooth animations
-- **Regular Updates**: Keep the extension updated for latest performance improvements
+## 🎨 Customization
 
-## 🎉 Next Steps
+### Visual Preferences
 
-Now that you're set up:
-1. **Use for a week** with default settings to establish a baseline
-2. **Monitor your comfort** and adjust angles/timing as needed
-3. **Check your statistics** weekly to track progress
-4. **Fine-tune settings** based on your work patterns
-5. **Share with colleagues** who might benefit from neck health awareness
+- **Status Indicator Position**: Top-right corner (fixed)
+- **Indicator Style**: Dark theme with transparency
+- **Animation Speed**: 2-second smooth transitions
 
-### Advanced Features to Explore Later
-- Custom time ranges for different work schedules
-- Statistics export for health tracking apps
-- Integration with productivity tools
-- Advanced rotation patterns
+### Advanced Settings
+
+- **Rotation Origin**: Center of viewport
+- **Transition Timing**: Ease-in-out curve
+- **Z-Index**: High priority to stay visible
+
+## 📊 Understanding Status
+
+### Status Indicator States
+
+- **Green Dot**: Extension active, waiting for next rotation
+- **Blue Dot**: Rotation in progress
+- **Orange Dot**: Paused (user interaction detected)
+- **Red Dot**: Error or incompatible page
+- **No Dot**: Extension disabled
+
+### Popup Information
+
+- **Next Reminder**: Countdown to next rotation
+- **Total Today**: Number of rotations completed
+- **Session Time**: How long extension has been active
+- **Current Status**: Active/Paused/Disabled
+
+## 🔄 Updates
+
+### Automatic Updates
+
+- Chrome automatically updates extensions from the Web Store
+- For development versions, manually reload in `chrome://extensions/`
+
+### Manual Update (Development)
+
+1. Pull latest changes: `git pull origin main`
+2. Go to `chrome://extensions/`
+3. Click the reload button for Neck Therapy Assistant
+
+## 🆘 Need Help?
+
+- **Documentation**: [Full README](README.md)
+- **Issues**: [GitHub Issues](https://github.com/your-username/neck-therapy-extension/issues)
+- **Email**: support@neck-therapy-extension.com
 
 ---
 
-**Congratulations! 🎉** You're now ready to start improving your neck health with smart, automated exercises. Remember, consistency is key – even small, regular movements can make a significant difference in preventing neck strain and improving overall comfort during computer work.
+**🎉 You're all set!** Start browsing and let the extension help you maintain better neck health through gentle, periodic exercises.
 
-For more detailed information, visit the [full documentation](README.md) or join our community discussions.
+*Remember: The goal is to encourage natural head movement that counteracts the static posture of computer use.*
