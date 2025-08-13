@@ -198,6 +198,31 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For detailed project documentation and development insights, please visit:
 - [Project Documentation](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
+
+## 📱 Follow Us
+
+Stay connected with us for the latest updates and coding insights:
+
+### WeChat Official Account - Vibe编码
+<div align="center">
+  <img src="dogtor-website/src/assets/images/wechat-qr.png" alt="WeChat QR Code" width="200">
+  <p><strong>Vibe编码</strong></p>
+  <p>Follow our WeChat official account for coding tutorials, tech insights, and project updates</p>
+</div>
+
+### Xiaohongshu - VibeCoder
+<div align="center">
+  <img src="dogtor-website/src/assets/images/xiaohongshu-qr.jpg" alt="Xiaohongshu QR Code" width="200">
+  <p><strong>VibeCoder</strong></p>
+  <p>Follow us on Xiaohongshu for creative coding content and behind-the-scenes development stories</p>
+</div>
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Dogtor Team</p>
+  <p>© 2024 Dogtor. All rights reserved.</p>
+</div>
 - [Plugin Development Documentation](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf?from=from_copylink)
 
 ## 📞 Support

@@ -198,6 +198,31 @@ neck-therapy-extension/
 
 详细的项目文档和开发见解，请访问：
 - [项目文档](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
+
+## 📱 关注我们
+
+关注我们获取最新更新和编程见解：
+
+### 微信公众号 - Vibe编码
+<div align="center">
+  <img src="dogtor-website/src/assets/images/wechat-qr.png" alt="微信公众号二维码" width="200">
+  <p><strong>Vibe编码</strong></p>
+  <p>关注我们的微信公众号，获取编程教程、技术见解和项目更新</p>
+</div>
+
+### 小红书 - VibeCoder
+<div align="center">
+  <img src="dogtor-website/src/assets/images/xiaohongshu-qr.jpg" alt="小红书二维码" width="200">
+  <p><strong>VibeCoder</strong></p>
+  <p>在小红书关注我们，获取创意编程内容和开发幕后故事</p>
+</div>
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Dogtor Team</p>
+  <p>© 2024 Dogtor. All rights reserved.</p>
+</div>
 - [插件开发文档](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf?from=from_copylink)
 
 ## 📞 支持
