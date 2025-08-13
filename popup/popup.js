@@ -234,6 +234,15 @@ class PopupApp {
 
   async handleToggleChange(enabled) {
     try {
+      // 防止重复操作
+      if (appState.isEnabled === enabled) {
+        console.log('Toggle state already matches, ignoring');
+        return;
+      }
+      
+      // 临时禁用开关，防止快速点击
+      elements.enableSwitch.disabled = true;
+      
       if (enabled) {
         // 启动旋转
         const settings = {
@@ -280,8 +289,11 @@ class PopupApp {
       // 回滚开关状态
       elements.enableSwitch.checked = !enabled;
       appState.isEnabled = !enabled;
-      // 重新加载状态以确保同步
-      setTimeout(() => this.loadState(), 100);
+      // 轻量级状态同步，而不是完整重载
+      setTimeout(() => this.syncState(), 500);
+    } finally {
+      // 重新启用开关
+      elements.enableSwitch.disabled = false;
     }
   }
 
@@ -364,8 +376,8 @@ class PopupApp {
     } catch (error) {
       console.error('Failed to update settings:', error);
       this.showError('设置更新失败');
-      // 重新加载状态以确保同步
-      setTimeout(() => this.loadState(), 100);
+      // 使用轻量级同步而不是完整重载
+      setTimeout(() => this.syncState(), 500);
     }
   }
 
@@ -442,9 +454,19 @@ class PopupApp {
         // 只更新关键状态，保持倒计时连续性
         const wasActive = appState.isActive;
         const oldNextTime = appState.nextRotationTime;
+        const wasEnabled = appState.isEnabled;
 
-        appState.isEnabled = settings.isEnabled || false;
-        appState.isActive = settings.isActive || false;
+        // 只在状态真正变化时更新
+        if (settings.isEnabled !== undefined && settings.isEnabled !== appState.isEnabled) {
+          appState.isEnabled = settings.isEnabled;
+          elements.enableSwitch.checked = appState.isEnabled;
+          console.log('Synced isEnabled:', appState.isEnabled);
+        }
+        
+        if (settings.isActive !== undefined && settings.isActive !== appState.isActive) {
+          appState.isActive = settings.isActive;
+          console.log('Synced isActive:', appState.isActive);
+        }
 
         // 只在必要时更新下次旋转时间
         if (settings.nextRotationTime && settings.nextRotationTime !== oldNextTime) {
@@ -452,12 +474,15 @@ class PopupApp {
         }
 
         // 如果状态发生重要变化，更新UI
-        if (wasActive !== appState.isActive) {
+        if (wasActive !== appState.isActive || wasEnabled !== appState.isEnabled) {
           this.updateStatusDisplay();
         }
       }
     } catch (error) {
       console.log('Sync state failed (non-critical):', error.message);
+      // 如果轻量级同步失败，才进行完整重载
+      console.log('Falling back to full state reload');
+      this.loadState();
     }
   }
 

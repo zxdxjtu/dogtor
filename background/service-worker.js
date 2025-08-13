@@ -50,7 +50,13 @@ class StateManager {
       // 从存储中恢复设置（包含所有状态信息）
       const result = await chrome.storage.sync.get(['user_settings']);
       if (result.user_settings) {
+        // 确保所有必需字段都存在，防止部分设置丢失
         this.settings = { ...DEFAULT_SETTINGS, ...result.user_settings };
+        console.log('Settings loaded from storage:', this.settings);
+      } else {
+        console.log('No existing settings found, using defaults');
+        // 首次使用，保存默认设置
+        await this.saveSettings();
       }
 
       // 兼容性处理：从旧的local存储迁移状态到settings
@@ -77,21 +83,61 @@ class StateManager {
         console.log('Legacy state migration completed');
       }
 
-      // 状态恢复逻辑：如果插件是启用状态且定时器应该运行
+      // 修复状态恢复逻辑：更加健壮的状态检查
+      await this.validateAndRestoreState();
+
+      console.log('StateManager initialized successfully:', this.settings);
+    } catch (error) {
+      console.error('Failed to initialize StateManager:', error);
+      // 初始化失败时使用默认设置
+      this.settings = { ...DEFAULT_SETTINGS };
+    }
+  }
+
+  async validateAndRestoreState() {
+    try {
+      // 检查当前Chrome alarms状态
+      const existingAlarms = await chrome.alarms.getAll();
+      const rotationAlarm = existingAlarms.find(alarm => alarm.name === 'rotationCycle');
+      
+      console.log('Existing alarms:', existingAlarms.map(a => ({ name: a.name, scheduledTime: a.scheduledTime })));
+      
       if (this.settings.isEnabled && this.settings.isActive) {
-        console.log('Restoring active rotation cycle after restart');
-        await this.restoreRotationTimer();
-      } else if (this.settings.isEnabled && !this.settings.isActive) {
-        // 如果插件启用但定时器未运行，重置状态为一致
-        console.log('Plugin enabled but timer not active, resetting state');
+        if (rotationAlarm) {
+          // 如果定时器存在，验证时间是否一致
+          const alarmTime = rotationAlarm.scheduledTime;
+          const settingsTime = this.settings.nextRotationTime;
+          
+          if (settingsTime && Math.abs(alarmTime - settingsTime) < 60000) {
+            // 时间差小于1分钟，认为是一致的
+            console.log('Rotation timer is consistent, keeping current state');
+            return;
+          } else {
+            console.log('Timer time mismatch, restarting timer');
+            await this.restoreRotationTimer();
+          }
+        } else {
+          // 设置说定时器应该运行，但实际没有定时器，重新启动
+          console.log('Settings indicate active timer but no alarm found, restarting');
+          await this.restoreRotationTimer();
+        }
+      } else if (rotationAlarm) {
+        // 设置说定时器不应该运行，但实际有定时器，清除它
+        console.log('Unexpected alarm found, clearing it');
+        await chrome.alarms.clear('rotationCycle');
         this.settings.isActive = false;
         this.settings.nextRotationTime = null;
         await this.saveSettings();
+      } else {
+        // 状态一致：设置说不运行，实际也没有定时器
+        console.log('State is consistent: timer not active');
       }
-
-      console.log('StateManager initialized:', this.settings);
     } catch (error) {
-      console.error('Failed to initialize StateManager:', error);
+      console.error('Failed to validate state:', error);
+      // 验证失败时重置为安全状态
+      this.settings.isActive = false;
+      this.settings.nextRotationTime = null;
+      await this.saveSettings();
     }
   }
 
@@ -144,13 +190,40 @@ class StateManager {
   }
 
   async saveSettings() {
-    try {
-      await chrome.storage.sync.set({ user_settings: this.settings });
-      return true;
-    } catch (error) {
-      console.error('Failed to save settings:', error);
-      return false;
+    const maxRetries = 3;
+    let lastError = null;
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        // 创建设置的深拷贝，确保数据完整性
+        const settingsToSave = JSON.parse(JSON.stringify(this.settings));
+        
+        // 添加时间戳用于调试
+        settingsToSave._lastSaved = Date.now();
+        
+        await chrome.storage.sync.set({ user_settings: settingsToSave });
+        
+        // 验证保存是否成功
+        const verification = await chrome.storage.sync.get(['user_settings']);
+        if (verification.user_settings && verification.user_settings._lastSaved === settingsToSave._lastSaved) {
+          console.log(`Settings saved successfully on attempt ${attempt}`);
+          return true;
+        } else {
+          throw new Error('Settings verification failed after save');
+        }
+      } catch (error) {
+        lastError = error;
+        console.warn(`Save attempt ${attempt}/${maxRetries} failed:`, error.message);
+        
+        if (attempt < maxRetries) {
+          // 等待后重试
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
+      }
     }
+    
+    console.error('Failed to save settings after all retries:', lastError);
+    return false;
   }
 
   // 兼容性方法：保持旧的 updateState 接口，但实际更新到 settings
@@ -208,6 +281,12 @@ class TimerManager {
         sessionStartTime: Date.now(),       // 会话开始时间
         currentPhase: 'idle'                // 重置阶段
       });
+      
+      // 确保设置已保存
+      const saveResult = await this.stateManager.saveSettings();
+      if (!saveResult) {
+        console.warn('Failed to save settings after starting rotation cycle');
+      }
 
       console.log(`Rotation cycle started, next rotation in ${delayInMinutes} minutes`);
       return { success: true, nextRotationTime };
@@ -228,6 +307,12 @@ class TimerManager {
         currentPhase: 'idle',      // 重置阶段
         nextRotationTime: null     // 清空下次旋转时间
       });
+      
+      // 确保设置已保存
+      const saveResult = await this.stateManager.saveSettings();
+      if (!saveResult) {
+        console.warn('Failed to save settings after stopping rotation cycle');
+      }
 
       console.log('Rotation cycle stopped');
       return { success: true };
@@ -300,6 +385,12 @@ class MessageHandler {
     const currentSettings = this.stateManager.getSettings();
     await this.stateManager.updateSettings(newSettings);
 
+    // 强制保存设置
+    const saveResult = await this.stateManager.saveSettings();
+    if (!saveResult) {
+      throw new Error('Failed to save settings to storage');
+    }
+
     // 如果正在运行，重启定时器以应用新设置
     if (currentSettings.isActive && newSettings.isEnabled !== false) {
       console.log('Restarting rotation cycle with new settings');
@@ -324,12 +415,28 @@ const timerManager = new TimerManager(stateManager);
 const messageHandler = new MessageHandler(stateManager, timerManager);
 
 // 定期保存非关键设置变更（如activeTabId）
-setInterval(() => {
-  // 每分钟保存一次静默更新的设置
-  stateManager.saveSettings().catch(error => {
-    console.warn('Periodic save failed:', error);
-  });
-}, 60000);
+setInterval(async () => {
+  try {
+    const saveResult = await stateManager.saveSettings();
+    if (saveResult) {
+      console.log('Periodic settings save completed');
+    } else {
+      console.warn('Periodic settings save failed');
+    }
+  } catch (error) {
+    console.error('Periodic save failed:', error);
+  }
+}, 30000);
+
+// 在关键时刻强制保存设置
+chrome.runtime.onSuspend?.addListener(async () => {
+  console.log('Service worker suspending, saving settings...');
+  try {
+    await stateManager.saveSettings();
+  } catch (error) {
+    console.error('Failed to save settings on suspend:', error);
+  }
+});
 
 // Service Worker 事件监听器
 
