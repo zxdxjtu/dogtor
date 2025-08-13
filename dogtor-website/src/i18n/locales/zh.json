@@ -1,0 +1,238 @@
+{
+  "nav": {
+    "home": "首页",
+    "features": "功能特性",
+    "download": "下载",
+    "docs": "文档",
+    "about": "关于我们",
+    "language": "语言"
+  },
+  "hero": {
+    "title": "Dogtor - 您的颈椎健康助手",
+    "subtitle": "AI驱动的Chrome扩展，专注于颈椎健康监测和治疗指导",
+    "cta": "立即开始",
+    "learnMore": "了解更多"
+  },
+  "features": {
+    "title": "核心功能",
+    "subtitle": "基于AI技术的全面颈椎健康解决方案",
+    "realtime": {
+      "title": "实时监测",
+      "description": "持续姿态追踪，颈椎健康即时提醒"
+    },
+    "ai": {
+      "title": "AI智能分析",
+      "description": "先进算法分析您的姿态模式，提供个性化建议"
+    },
+    "therapy": {
+      "title": "指导治疗",
+      "description": "专业的治疗练习和拉伸动作，针对您的具体需求定制"
+    },
+    "progress": {
+      "title": "进度追踪",
+      "description": "详细的分析报告，监测您的颈椎健康改善情况"
+    }
+  },
+  "download": {
+    "title": "下载 Dogtor",
+    "subtitle": "立即开始您的颈椎健康之旅",
+    "github": {
+      "title": "GitHub 仓库",
+      "description": "访问源代码，参与项目贡献，获取最新开发动态。",
+      "button": "在 GitHub 查看"
+    },
+    "chrome": {
+      "title": "Chrome 扩展",
+      "description": "直接从 Chrome 网上应用店安装，与浏览器无缝集成。",
+      "button": "添加到 Chrome",
+      "buttonPrimary": "立即安装扩展",
+      "buttonSecondary": "免费添加到 Chrome"
+    },
+    "docs": {
+      "title": "项目文档",
+      "description": "全面的指南、API文档和教程，帮助您充分利用 Dogtor。",
+      "button": "查看文档"
+    }
+  },
+  "about": {
+    "title": "关于我们",
+    "description": "了解更多关于我们的使命和团队",
+    "award": {
+      "title": "TRAE Hackathon 杭州一等奖"
+    },
+    "hero": {
+      "title": "关于",
+      "award": "TRAE Hackathon 杭州一等奖",
+      "description": "Dogtor是一个专注于颈椎健康的创新项目，通过智能化的网页交互设计，帮助现代人在数字化工作中保护颈椎健康。"
+    },
+    "achievements": {
+      "title": "项目成就",
+      "subtitle": "在TRAE Hackathon中获得的认可和成就",
+      "award": {
+        "title": "TRAE Hackathon 杭州一等奖",
+        "description": "在激烈的竞争中脱颖而出，获得评委和参赛者的一致认可"
+      },
+      "innovation": {
+        "title": "创新健康解决方案",
+        "description": "首创网页旋转式颈椎运动指导，开创性地将健康理念融入日常浏览"
+      },
+      "ux": {
+        "title": "用户体验优先",
+        "description": "注重用户体验设计，让健康提醒变得自然而不打扰"
+      }
+    },
+    "missionVision": {
+      "title": "使命与愿景",
+      "subtitle": "我们致力于通过技术创新改善人们的健康生活"
+    },
+    "mission": {
+      "title": "我们的使命",
+      "description": "通过创新的技术解决方案，帮助现代人预防和改善颈椎疾病，让健康成为工作生活的一部分。"
+    },
+    "vision": {
+      "title": "我们的愿景",
+      "description": "成为全球领先的数字健康解决方案提供商，让每个人都能在数字化时代保持身体健康。"
+    },
+    "values": {
+      "title": "我们的价值观",
+      "description": "以用户为中心，注重科学性和实用性，致力于为用户提供简单易用且有效的健康工具。"
+    },
+    "team": {
+      "title": "开发团队",
+      "subtitle": "由充满激情的开发者组成的创新团队",
+      "name": "Dogtor开发团队",
+      "description": "我们是一支专注于健康科技的开发团队，致力于通过创新的技术解决方案，帮助现代人在数字化时代保持身体健康。团队成员具有丰富的前端开发、用户体验设计和健康科学背景。",
+      "expertise": {
+        "title": "技术专长",
+        "chrome": "Chrome扩展开发",
+        "frontend": "前端技术栈",
+        "ux": "用户体验设计",
+        "health": "健康科技应用"
+      },
+      "philosophy": {
+        "title": "项目理念",
+        "userCentric": "以用户健康为中心",
+        "scientific": "科学性与实用性并重",
+        "simple": "简单易用的设计",
+        "innovation": "持续创新改进"
+      }
+    },
+    "social": {
+      "title": "关注我们",
+      "subtitle": "获取更多AI编程和技术分享内容",
+      "wechat": {
+        "title": "微信公众号 - Vibe编码",
+        "description": "长期深耕AI编程领域，主动辞职GAP投身Vibe Coding。分享AI编程技术、项目实战和行业洞察。",
+        "scan": "扫码关注公众号"
+      },
+      "xiaohongshu": {
+        "title": "小红书 - VibeCoder",
+        "description": "小红书号：7110296284。分享编程学习心得、技术教程和开发经验，与更多开发者交流互动。",
+        "scan": "扫码关注小红书"
+      }
+    },
+    "project": {
+      "title": "项目信息",
+      "subtitle": "了解更多关于Dogtor项目的详细信息",
+      "opensource": {
+        "title": "开源项目",
+        "subtitle": "GitHub上的开源代码",
+        "description": "Dogtor是一个完全开源的项目，欢迎开发者参与贡献和改进。",
+        "link": "查看源代码"
+      },
+      "award": {
+        "title": "获奖项目",
+        "subtitle": "TRAE Hackathon杭州站",
+        "description": "在TRAE Hackathon杭州站中荣获一等奖，得到了评委和参赛者的高度认可。",
+        "link": "查看项目文档"
+      }
+    },
+    "cta": {
+      "title": "加入我们的健康之旅",
+      "description": "体验Dogtor带来的颈椎健康保护，让科技为您的健康保驾护航",
+      "download": "立即下载",
+      "github": "查看源码"
+    }
+  },
+  "footer": {
+    "description": "颈椎治疗助手 - 通过智能网页旋转运动帮助预防颈椎疾病的专业Chrome扩展",
+    "award": "TRAE Hackathon 杭州一等奖",
+    "quickLinks": {
+      "title": "快速链接",
+      "features": "功能特性",
+      "download": "下载安装",
+      "about": "关于我们"
+    },
+    "resources": {
+      "title": "项目资源",
+      "github": "GitHub 仓库",
+      "chrome": "Chrome 扩展商店",
+      "docs": "项目文档"
+    },
+    "copyright": "© 2024 Dogtor. 专为颈椎健康而设计.",
+    "builtWith": "Built with ❤️ for TRAE Hackathon Hangzhou"
+  },
+  "docs": {
+    "hero": {
+      "title": "TRAE Hackathon 项目文档",
+      "award": "TRAE Hackathon 杭州一等奖",
+      "description": "Dogtor项目的完整文档 - 一个创新的颈椎健康助手，荣获TRAE Hackathon杭州站一等奖。",
+      "viewOriginal": "查看原始文档",
+      "viewCode": "查看源代码"
+    },
+    "summary": {
+      "title": "项目概要",
+      "subtitle": "Dogtor项目的关键信息",
+      "projectName": "作品名称",
+      "slogan": "项目口号",
+      "sloganText": "工作顺利，颈颈有条～",
+      "links": {
+        "title": "项目链接",
+        "github": "GitHub 仓库",
+        "chrome": "Chrome 扩展"
+      }
+    },
+    "overview": {
+      "title": "作品简介",
+      "content": "工作时容易长时间盯着屏幕，导致颈椎不舒服，严重者会患上颈椎病。\n\n这是一款名叫Dogtor的浏览器插件，定时触发网站页面旋转，左转30秒右转30秒，使你下意识地能够活动颈部。\n\n工作顺利，颈颈有条～"
+    },
+    "target": {
+      "title": "目标人群",
+      "content": "有颈椎问题的忙碌上班族\n\n长时间使用电脑工作的现代职场人士，由于不良姿势和缺乏运动而容易出现颈部劳损和颈椎问题。"
+    },
+    "problem": {
+      "title": "解决什么问题",
+      "content": "解决上班族沉迷工作，忘记锻炼颈椎，及时预防和治疗颈椎病。\n\n许多人因以下原因患上颈椎问题：\n• 长时间使用电脑\n• 不良的姿势习惯\n• 缺乏定期的颈部运动\n• 在紧张工作中忘记休息"
+    },
+    "solution": {
+      "title": "技术解决方案",
+      "content": "Dogtor使用创新的网页旋转技术，创造自然且不打扰的颈椎运动体验：\n\n• 自动页面旋转触发\n• 可自定义旋转间隔\n• 温和的颈部运动视觉提示\n• 无缝浏览器集成\n• 用户友好的设置和控制"
+    },
+    "features": {
+      "title": "技术特色",
+      "subtitle": "Dogtor的独特之处和有效性",
+      "innovation": {
+        "title": "创新方法",
+        "description": "首个使用页面旋转进行颈椎健康的浏览器扩展，在日常浏览活动中创造自然的运动环境。"
+      },
+      "userExperience": {
+        "title": "用户体验",
+        "description": "非侵入式设计，无缝集成到工作流程中，在不影响生产力的情况下提供健康益处。"
+      },
+      "technology": {
+        "title": "技术栈",
+        "description": "使用现代网络技术构建，包括Chrome扩展API、JavaScript和响应式设计原则。"
+      },
+      "health": {
+        "title": "健康专注",
+        "description": "科学设计的旋转模式，促进颈部运动，帮助预防颈椎问题。"
+      }
+    },
+    "cta": {
+      "title": "立即体验 Dogtor",
+      "description": "体验荣获TRAE Hackathon一等奖的创新颈椎健康解决方案",
+      "download": "下载扩展",
+      "github": "查看源码"
+    }
+  }
+}

@@ -1,0 +1,78 @@
+# Dependencies
+node_modules
+
+# Development files
+.git
+.gitignore
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Build artifacts
+build
+dist
+
+# Temporary folders
+tmp
+temp
+
+# Documentation
+*.md
+README*
+CHANGELOG*
+LICENSE*
+
+# Test files
+__tests__
+*.test.js
+*.test.jsx
+*.test.ts
+*.test.tsx
+*.spec.js
+*.spec.jsx
+*.spec.ts
+*.spec.tsx
+
+# Config files
+.eslintrc*
+.prettierrc*
+jest.config*
+vite.config.ts.timestamp*
+
+# Large image files (keep only optimized versions)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+!src/assets/images/wechat-qr.jpg
+!src/assets/images/xhs_qr.jpg
+!src/assets/images/dogtor.png
+!src/assets/react.svg
