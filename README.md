@@ -205,7 +205,7 @@ Stay connected with us for the latest updates and coding insights:
 
 ### WeChat Official Account - Vibe编码
 <div align="center">
-  <img src="dogtor-website/src/assets/images/wechat-qr.png" alt="WeChat QR Code" width="200">
+  <img src="dogtor-website/src/assets/images/wechat-qr.jpg" alt="WeChat QR Code" width="200">
   <p><strong>Vibe编码</strong></p>
   <p>Follow our WeChat official account for coding tutorials, tech insights, and project updates</p>
 </div>

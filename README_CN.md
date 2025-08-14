@@ -205,7 +205,7 @@ neck-therapy-extension/
 
 ### 微信公众号 - Vibe编码
 <div align="center">
-  <img src="dogtor-website/src/assets/images/wechat-qr.png" alt="微信公众号二维码" width="200">
+  <img src="dogtor-website/src/assets/images/wechat-qr.jpg" alt="微信公众号二维码" width="200">
   <p><strong>Vibe编码</strong></p>
   <p>关注我们的微信公众号，获取编程教程、技术见解和项目更新</p>
 </div>
