@@ -48,6 +48,9 @@ body {
 
 /* 头部样式 */
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
   color: white;
   padding: 2rem 1.5rem;
@@ -77,6 +80,52 @@ body {
 .header-text p {
   font-size: 0.875rem;
   opacity: 0.9;
+}
+
+/* Options页面语言切换按钮样式 */
+.language-toggle {
+  margin-top: 0.5rem;
+}
+
+.header .language-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 56px;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.header .language-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header .language-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header #languageIcon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.header #currentLang {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 /* 主要内容 */

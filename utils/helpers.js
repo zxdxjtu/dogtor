@@ -1,4 +1,4 @@
-// 颈椎治疗助手 - 工具函数
+// Dogtor 颈椎治疗助手 - 工具函数
 
 import {
   TimeConstants,

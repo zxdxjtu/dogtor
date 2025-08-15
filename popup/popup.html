@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>颈椎治疗助手</title>
+  <title data-i18n="appTitle">Dogtor</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -15,9 +15,16 @@
           <img src="../icons/icon-32.png" alt="Dogtor" class="logo-img">
         </div>
         <div class="title-section">
-          <h1 class="title">Dogtor</h1>
-          <p class="subtitle">颈椎健康提醒助手</p>
+          <h1 class="title" data-i18n="appTitle">Dogtor</h1>
+          <p class="subtitle" data-i18n="appSubtitle">颈椎健康提醒助手</p>
         </div>
+      </div>
+      <!-- 语言切换按钮 -->
+      <div class="language-toggle">
+        <button id="languageToggle" class="language-btn" title="切换语言 / Switch Language">
+          <span id="languageIcon">🌐</span>
+          <span id="currentLang">EN</span>
+        </button>
       </div>
     </div>
 
@@ -26,8 +33,7 @@
       <div class="section">
         <div class="toggle-section">
           <div class="toggle-info">
-            <h3 class="section-title">自动旋转提醒</h3>
-            <p class="section-description">开启后将定期旋转页面提醒您活动颈椎</p>
+            <h3 class="section-title" data-i18n="autoRotationTitle">自动旋转提醒</h3>
           </div>
           <div class="switch-container">
             <input type="checkbox" id="enableSwitch" class="switch-input">
@@ -40,7 +46,7 @@
 
       <!-- Rotation Angle -->
       <div class="section">
-        <h3 class="section-title">旋转角度</h3>
+        <h3 class="section-title" data-i18n="rotationAngleTitle">旋转角度</h3>
         
         <!-- Protractor Visualization -->
         <div class="protractor-container">
@@ -87,18 +93,18 @@
             <circle cx="12" cy="12" r="10"/>
             <polyline points="12,6 12,12 16,14"/>
           </svg>
-          <h3 class="section-title">旋转周期</h3>
+          <h3 class="section-title" data-i18n="rotationCycleTitle">旋转周期</h3>
         </div>
         
         <div class="frequency-display">
-          <span>每隔 <span id="frequencyValue" class="frequency-value">10</span> 分钟</span>
+          <span id="frequencyText" data-i18n="rotationCycleText" data-i18n-params='{"minutes": "10"}'>每隔 10 分钟</span>
         </div>
 
         <div class="slider-container">
           <input type="range" id="frequencySlider" class="slider" min="1" max="60" value="10" step="1">
           <div class="slider-labels">
-            <span>1分钟</span>
-            <span>60分钟</span>
+            <span data-i18n="minutesOnly" data-i18n-params='{"minutes": "1"}'>1分钟</span>
+            <span data-i18n="minutesOnly" data-i18n-params='{"minutes": "60"}'>60分钟</span>
           </div>
         </div>
       </div>
@@ -107,20 +113,14 @@
       <div id="statusSection" class="status-section" style="display: none;">
         <div class="status-content">
           <div class="status-indicator"></div>
-          <span id="statusText" class="status-text">下次提醒: 10分钟后</span>
+          <span id="statusText" class="status-text" data-i18n="statusNextReminder" data-i18n-params='{"time": "10分钟后"}'>下次提醒: 10分钟后</span>
         </div>
       </div>
 
-      <!-- Bottom message -->
-      <div class="bottom-message">
-        <span>保护您的颈椎健康</span>
-        <svg class="heart-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>
-      </div>
     </div>
   </div>
 
+  <script src="../utils/i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

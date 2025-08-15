@@ -1,0 +1,238 @@
+{
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "download": "Download",
+    "docs": "Docs",
+    "about": "About",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "Dogtor - Your Neck Health Assistant",
+    "subtitle": "AI-powered Chrome extension for cervical spine health monitoring and therapy guidance",
+    "cta": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "features": {
+    "title": "Core Features",
+    "subtitle": "Comprehensive neck health solutions powered by AI technology",
+    "realtime": {
+      "title": "Real-time Monitoring",
+      "description": "Continuous posture tracking and instant alerts for neck health"
+    },
+    "ai": {
+      "title": "AI-Powered Analysis",
+      "description": "Advanced algorithms analyze your posture patterns and provide personalized recommendations"
+    },
+    "therapy": {
+      "title": "Guided Therapy",
+      "description": "Professional therapy exercises and stretches tailored to your specific needs"
+    },
+    "progress": {
+      "title": "Progress Tracking",
+      "description": "Detailed analytics and reports to monitor your neck health improvement over time"
+    }
+  },
+  "download": {
+    "title": "Download Dogtor",
+    "subtitle": "Get started with your neck health journey today",
+    "github": {
+      "title": "GitHub Repository",
+      "description": "Access the source code, contribute to the project, and stay updated with the latest developments.",
+      "button": "View on GitHub"
+    },
+    "chrome": {
+      "title": "Chrome Extension",
+      "description": "Install directly from Chrome Web Store for seamless integration with your browser.",
+      "button": "Add to Chrome",
+      "buttonPrimary": "Install Extension Now",
+      "buttonSecondary": "Add to Chrome - It's Free"
+    },
+    "docs": {
+      "title": "Documentation",
+      "description": "Comprehensive guides, API documentation, and tutorials to help you get the most out of Dogtor.",
+      "button": "View Documentation"
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "description": "Learn more about our mission and team",
+    "award": {
+      "title": "TRAE Hackathon Hangzhou First Prize"
+    },
+    "hero": {
+      "title": "About",
+      "award": "TRAE Hackathon Hangzhou First Prize",
+      "description": "Dogtor is an innovative project focused on cervical spine health, helping modern people protect their cervical spine health in digital work through intelligent web interaction design."
+    },
+    "achievements": {
+      "title": "Project Achievements",
+      "subtitle": "Recognition and achievements gained in TRAE Hackathon",
+      "award": {
+        "title": "TRAE Hackathon Hangzhou First Prize",
+        "description": "Stood out in fierce competition, gaining unanimous recognition from judges and participants"
+      },
+      "innovation": {
+        "title": "Innovative Health Solution",
+        "description": "First to create web-based rotational cervical spine exercise guidance, pioneering the integration of health concepts into daily browsing"
+      },
+      "ux": {
+        "title": "User Experience Priority",
+        "description": "Focus on user experience design, making health reminders natural and non-intrusive"
+      }
+    },
+    "missionVision": {
+      "title": "Mission & Vision",
+      "subtitle": "We are committed to improving people's healthy lives through technological innovation"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "Through innovative technological solutions, help modern people prevent and improve cervical spine diseases, making health an integral part of work and life."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "To become a leading global provider of digital health solutions, enabling everyone to maintain physical health in the digital age."
+    },
+    "values": {
+      "title": "Our Values",
+      "description": "User-centered, focusing on scientific and practical approaches, committed to providing simple, easy-to-use and effective health tools for users."
+    },
+    "team": {
+      "title": "Development Team",
+      "subtitle": "An innovative team composed of passionate developers",
+      "name": "Dogtor Development Team",
+      "description": "We are a development team focused on health technology, committed to helping modern people maintain physical health in the digital age through innovative technological solutions. Team members have rich backgrounds in frontend development, user experience design, and health science.",
+      "expertise": {
+        "title": "Technical Expertise",
+        "chrome": "Chrome Extension Development",
+        "frontend": "Frontend Technology Stack",
+        "ux": "User Experience Design",
+        "health": "Health Technology Applications"
+      },
+      "philosophy": {
+        "title": "Project Philosophy",
+        "userCentric": "User health-centered",
+        "scientific": "Balance of scientific and practical approaches",
+        "simple": "Simple and easy-to-use design",
+        "innovation": "Continuous innovation and improvement"
+      }
+    },
+    "social": {
+      "title": "Follow Us",
+      "subtitle": "Get more AI programming and technology sharing content",
+      "wechat": {
+        "title": "WeChat Official Account - Vibe编码",
+        "description": "Long-term focus on AI programming field, actively resigned from GAP to devote to Vibe Coding. Share AI programming technology, project practice and industry insights.",
+        "scan": "Scan to follow WeChat account"
+      },
+      "xiaohongshu": {
+        "title": "Xiaohongshu - VibeCoder",
+        "description": "Xiaohongshu ID: 7110296284. Share programming learning experiences, technical tutorials and development insights, interact with more developers.",
+        "scan": "Scan to follow Xiaohongshu"
+      }
+    },
+    "project": {
+      "title": "Project Information",
+      "subtitle": "Learn more detailed information about the Dogtor project",
+      "opensource": {
+        "title": "Open Source Project",
+        "subtitle": "Open source code on GitHub",
+        "description": "Dogtor is a completely open source project, welcoming developers to participate in contributions and improvements.",
+        "link": "View Source Code"
+      },
+      "award": {
+        "title": "Award-winning Project",
+        "subtitle": "TRAE Hackathon Hangzhou",
+        "description": "Won first prize at TRAE Hackathon Hangzhou, receiving high recognition from judges and participants.",
+        "link": "View Project Documentation"
+      }
+    },
+    "cta": {
+      "title": "Join Our Health Journey",
+      "description": "Experience the cervical spine health protection that Dogtor brings, let technology safeguard your health",
+      "download": "Download Now",
+      "github": "View Source Code"
+    }
+  },
+  "footer": {
+    "description": "Cervical spine therapy assistant - Professional Chrome extension that helps prevent cervical spine diseases through intelligent web rotation exercises",
+    "award": "TRAE Hackathon Hangzhou First Prize",
+    "quickLinks": {
+      "title": "Quick Links",
+      "features": "Features",
+      "download": "Download",
+      "about": "About"
+    },
+    "resources": {
+      "title": "Project Resources",
+      "github": "GitHub Repository",
+      "chrome": "Chrome Extension Store",
+      "docs": "Project Documentation"
+    },
+    "copyright": "© 2024 Dogtor. Designed for cervical spine health.",
+    "builtWith": "Built with ❤️ for TRAE Hackathon Hangzhou"
+  },
+  "docs": {
+    "hero": {
+      "title": "TRAE Hackathon Project Documentation",
+      "award": "TRAE Hackathon Hangzhou First Prize",
+      "description": "Comprehensive documentation of the Dogtor project - an innovative cervical spine health assistant that won first prize at TRAE Hackathon Hangzhou.",
+      "viewOriginal": "View Original Document",
+      "viewCode": "View Source Code"
+    },
+    "summary": {
+      "title": "Project Summary",
+      "subtitle": "Key information about the Dogtor project",
+      "projectName": "Project Name",
+      "slogan": "Project Slogan",
+      "sloganText": "Work smoothly, neck in good condition~",
+      "links": {
+        "title": "Project Links",
+        "github": "GitHub Repository",
+        "chrome": "Chrome Extension"
+      }
+    },
+    "overview": {
+      "title": "Project Overview",
+      "content": "Working for long periods while staring at screens can cause neck discomfort, and in severe cases, lead to cervical spondylosis.\n\nThis is a browser extension called Dogtor that periodically triggers website page rotation - left rotation for 30 seconds, right rotation for 30 seconds - making you subconsciously move your neck.\n\nWork smoothly, neck in good condition~"
+    },
+    "target": {
+      "title": "Target Audience",
+      "content": "Busy office workers with cervical spine problems\n\nModern professionals who spend long hours at computers and are prone to neck strain and cervical spine issues due to poor posture and lack of movement."
+    },
+    "problem": {
+      "title": "Problem Solved",
+      "content": "Solving the problem of office workers being immersed in work, forgetting to exercise their cervical spine, and timely prevention and treatment of cervical spine diseases.\n\nMany people develop cervical spine problems due to:\n• Prolonged computer use\n• Poor posture habits\n• Lack of regular neck exercises\n• Forgetting to take breaks during intensive work"
+    },
+    "solution": {
+      "title": "Technical Solution",
+      "content": "Dogtor uses innovative web-based rotation technology to create a natural and non-intrusive cervical spine exercise experience:\n\n• Automatic page rotation triggers\n• Customizable rotation intervals\n• Gentle visual cues for neck movement\n• Seamless browser integration\n• User-friendly settings and controls"
+    },
+    "features": {
+      "title": "Technical Features",
+      "subtitle": "What makes Dogtor unique and effective",
+      "innovation": {
+        "title": "Innovative Approach",
+        "description": "First browser extension to use page rotation for cervical spine health, creating a natural exercise environment within daily browsing activities."
+      },
+      "userExperience": {
+        "title": "User Experience",
+        "description": "Non-intrusive design that integrates seamlessly into work flow, providing health benefits without disrupting productivity."
+      },
+      "technology": {
+        "title": "Technology Stack",
+        "description": "Built with modern web technologies including Chrome Extension APIs, JavaScript, and responsive design principles."
+      },
+      "health": {
+        "title": "Health Focus",
+        "description": "Scientifically designed rotation patterns that promote neck movement and help prevent cervical spine problems."
+      }
+    },
+    "cta": {
+      "title": "Try Dogtor Today",
+      "description": "Experience the innovative cervical spine health solution that won first prize at TRAE Hackathon",
+      "download": "Download Extension",
+      "github": "View Source Code"
+    }
+  }
+}

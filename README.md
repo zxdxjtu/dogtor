@@ -1,175 +1,186 @@
-# Neck Therapy Chrome Extension
+# Dogtor
 
 <div align="center">
-
-![Logo](icons/icon-128.png)
-
-**A professional neck health management Chrome extension**
-
-[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-v1.0.0-blue.svg)](https://chrome.google.com/webstore)
-[![Manifest V3](https://img.shields.io/badge/Manifest-V3-green.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-[English](README.md) | [中文](README_CN.md)
-
+  <img src="images/dogtor.png" alt="Dogtor Logo" width="128" height="128">
+  <h3>颈椎治疗助手 - Cervical Spine Health Assistant</h3>
+  <p>Help prevent neck strain through periodic webpage rotation exercises</p>
+  
+  <p><strong>🏆 TRAE Hackathon Hangzhou 1st Prize 🏆</strong></p>
 </div>
 
-## 🎯 Overview
+## 🌟 Overview
 
-The Neck Therapy Chrome Extension helps alleviate cervical spine issues caused by prolonged computer use through intelligent periodic webpage rotation. By gently rotating web content left and right at 15-degree angles, it guides users to change their head posture naturally, promoting neck health during daily browsing activities.
+Dogtor is a Chrome extension designed to help computer users maintain cervical spine health through periodic webpage rotation exercises. By automatically rotating webpage content at customizable intervals, it encourages users to change their head posture, reducing the risk of neck strain from prolonged computer use.
 
-## ✨ Key Features
+## ✨ Features
 
-### 🔄 Smart Rotation System
-- **Periodic Rotation**: Automatically rotates webpages left (-15°) then right (+15°) based on customizable cycles
-- **Smooth Animations**: Hardware-accelerated CSS transforms ensure 60fps performance
-- **Intelligent Scheduling**: Uses Chrome Alarms API for reliable timing even when browser is idle
+### 🔄 Automatic Rotation Cycle
+- **Periodic Exercise**: Automatically triggers rotation sequences every 10 minutes (customizable 1-60 minutes)
+- **Three-Phase Rotation**: Left rotation (15°) → Right rotation (15°) → Return to normal
+- **Smooth Animation**: CSS transform-based smooth transitions for comfortable viewing
 
-### ⚙️ Highly Customizable
-- **Rotation Cycle**: 1-60 minutes (default: 10 minutes)
-- **Rotation Duration**: 10-120 seconds per direction (default: 30 seconds)
-- **Rotation Angle**: Adjustable angle settings for comfort
-- **Working Hours**: Optional time-based scheduling
-
-### 🛡️ User Experience Protection
-- **Smart Detection**: Automatically detects user typing, video playback, or active interactions
-- **Graceful Delays**: Postpones rotations during user activities
-- **Page Compatibility**: Automatic detection of special pages (chrome://, extensions, etc.)
-- **Content Script Injection**: Robust handling of dynamic page loading
-
-### 📊 Health Statistics
-- **Exercise Tracking**: Total rotations, daily counts, and streak days
-- **Time Monitoring**: Track total exercise time and session duration
-- **Progress Visualization**: Clear statistics display in options page
-- **Data Export**: Export statistics for personal health records
+### ⚙️ Customizable Settings
+- **Rotation Frequency**: Adjust cycle duration from 1 to 60 minutes
+- **Rotation Duration**: Set individual rotation time from 10 to 120 seconds
+- **Rotation Angle**: Customize rotation degree (default 15°)
+- **Visual Indicators**: Toggle status indicators on/off
 
 ### 🌐 Universal Compatibility
-- **All Websites**: Works on any webpage with proper fallback mechanisms
-- **Cross-Tab Sync**: Consistent state management across browser tabs
-- **Manifest V3**: Built with latest Chrome extension standards
-- **Performance Optimized**: <5MB memory usage, <3% CPU impact
+- **Cross-Site Support**: Works on any website without interference
+- **Dynamic Content**: Compatible with dynamically updated pages
+- **Complex Layouts**: Maintains page structure integrity
+- **iframe Support**: Handles embedded content properly
 
-## 🚀 Installation
+### 🎛️ User Control
+- **One-Click Toggle**: Easy enable/disable through popup interface
+- **Real-Time Status**: Live countdown and rotation progress display
+- **Smart Interruption**: Pauses during user input or video playback
+- **Persistent Settings**: Remembers preferences across browser sessions
 
-### From Chrome Web Store (Recommended)
-1. Visit the [Chrome Web Store](https://chrome.google.com/webstore) (Coming Soon)
-2. Click "Add to Chrome"
-3. Confirm the installation
+### 📊 Status Monitoring
+- **Visual Indicators**: Unobtrusive status display in corner
+- **Progress Tracking**: Real-time countdown and phase indicators
+- **Detailed Information**: Hover for comprehensive status details
+- **Error Handling**: Graceful degradation on incompatible pages
 
-### Manual Installation (Development)
-1. Download or clone this repository
-2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable "Developer mode" in the top right
-4. Click "Load unpacked" and select the extension directory
-5. The extension icon should appear in your toolbar
+## 🚀 Quick Start
 
-## 🎮 Quick Start
+### Installation
 
-1. **Enable the Extension**: Click the extension icon and toggle the main switch
-2. **Customize Settings**: Access the options page for personalized configuration
-3. **Monitor Progress**: View statistics and adjust settings as needed
-4. **Stay Healthy**: Let the extension guide your neck exercises automatically
+1. **Download the Extension**
+   ```bash
+   git clone https://github.com/your-username/dogtor.git
+   cd dogtor
+   ```
 
-For detailed setup instructions, see [QUICK_START.md](QUICK_START.md).
+2. **Load in Chrome**
+   - Open Chrome and navigate to `chrome://extensions/`
+   - Enable "Developer mode" in the top right
+   - Click "Load unpacked" and select the extension folder
+   - The Dogtor icon will appear in your toolbar
 
-## 🏗️ Architecture
+3. **Start Using**
+   - Click the Dogtor extension icon to open the control panel
+   - Toggle the switch to enable automatic rotations
+   - Customize settings in the options page if needed
+
+### Basic Usage
+
+1. **Enable the Extension**: Click the toolbar icon and toggle the switch
+2. **Monitor Status**: Watch the countdown timer for next rotation
+3. **Adjust Settings**: Access options through the gear icon
+4. **Pause When Needed**: The extension automatically pauses during user interaction
+
+## 🏗️ Technical Architecture
 
 ### Core Components
-- **Service Worker**: Background task management and timer coordination
-- **Content Script**: DOM manipulation and animation execution
-- **Popup Interface**: User control panel with real-time status
-- **Options Page**: Comprehensive settings and statistics
+
+- **Service Worker**: Manages timers, state coordination, and message routing
+- **Content Script**: Handles DOM manipulation and rotation animations
+- **Popup Interface**: Provides user controls and real-time status
+- **Options Page**: Advanced settings and customization
 
 ### Technology Stack
-- **Manifest V3**: Latest Chrome extension standard
-- **Service Workers**: Reliable background processing
-- **Chrome Storage API**: Persistent settings and statistics
-- **Chrome Alarms API**: Accurate timing and scheduling
-- **CSS Transforms**: Hardware-accelerated animations
 
-## 📱 User Interface
+- **Manifest V3**: Latest Chrome extension architecture
+- **Chrome Alarms API**: Reliable timer management
+- **CSS Transform**: Hardware-accelerated smooth animations
+- **Chrome Storage API**: Persistent settings and state management
 
-### Popup Panel
-- Toggle switch for quick enable/disable
-- Real-time rotation status display
-- Next rotation countdown timer
-- Quick settings adjustment
+### Key Features
 
-### Options Page
-- Comprehensive configuration panel
-- Detailed statistics and charts
-- Export/import functionality
-- Advanced settings for power users
+- **Service Worker Lifecycle**: Robust handling of background script limitations
+- **Cross-Tab Synchronization**: Consistent state across browser tabs
+- **Error Recovery**: Automatic reconnection and state restoration
+- **Performance Optimization**: Minimal resource usage and smooth animations
 
-### Status Indicator
-- Unobtrusive on-page rotation indicator
-- Progress countdown during exercises
-- Direction change notifications
-- Hover tooltips for detailed information
+## 📁 Project Structure
 
-## 🧪 Development
+```
+dogtor/
+├── manifest.json              # Extension configuration
+├── background/
+│   └── service-worker.js      # Background script (Service Worker)
+├── content/
+│   └── content-script.js      # Content script for DOM manipulation
+├── popup/
+│   ├── popup.html            # Popup interface
+│   ├── popup.css             # Popup styling
+│   └── popup.js              # Popup functionality
+├── options/
+│   ├── options.html          # Options page
+│   ├── options.css           # Options styling
+│   └── options.js            # Options functionality
+├── icons/                    # Extension icons
+├── images/                   # Assets and logos
+├── utils/                    # Shared utilities
+└── docs/                     # Documentation
+```
+
+## 🔧 Development
 
 ### Prerequisites
-- Node.js 16+ and npm 8+
-- Chrome browser for testing
 
-### Setup
-```bash
-# Install dependencies
-npm install
+- Chrome Browser (latest version)
+- Basic knowledge of JavaScript, HTML, CSS
+- Understanding of Chrome Extension APIs
 
-# Run linting
-npm run lint
+### Development Setup
 
-# Build for production
-npm run build
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/your-username/dogtor.git
+   cd dogtor
+   ```
 
-# Development mode
-npm run dev
-```
+2. **Load in Developer Mode**
+   - Open `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked" and select the project folder
+
+3. **Make Changes**
+   - Edit source files as needed
+   - Click "Reload" button in extensions page to apply changes
 
 ### Testing
-```bash
-# Run all checks
-npm run check
 
-# Type checking
-npm run type-check
+The project includes comprehensive test suites:
 
-# Manual testing
-npm run test
-```
+- **Unit Tests**: Core functionality testing
+- **Integration Tests**: Component interaction testing
+- **E2E Tests**: Full user workflow testing
+- **Compatibility Tests**: Cross-site functionality verification
+
+Run tests by opening the test HTML files in your browser.
 
 ## 🤝 Contributing
 
 We welcome contributions! Please follow these steps:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. **Fork the Repository**
+2. **Create a Feature Branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Make Your Changes**
+4. **Add Tests** for new functionality
+5. **Commit Your Changes**
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+6. **Push to Branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+7. **Open a Pull Request**
 
-### Code Style
-- Follow ESLint configuration
-- Use meaningful commit messages
-- Test thoroughly before submitting
-- Update documentation as needed
+### Development Guidelines
 
-## 📊 Performance Metrics
-
-- **Memory Usage**: <5MB additional consumption
-- **CPU Impact**: <3% performance impact
-- **Animation Performance**: Consistent 60fps
-- **Compatibility**: 95%+ website support
-- **Timer Accuracy**: <5 second deviation
-
-## 🛡️ Privacy & Security
-
-- **No Data Collection**: All settings stored locally
-- **No Network Requests**: Fully offline operation
-- **Minimal Permissions**: Only required Chrome APIs
-- **Open Source**: Full transparency and auditability
+- Follow existing code style and conventions
+- Add comprehensive tests for new features
+- Update documentation for API changes
+- Ensure cross-browser compatibility
+- Test on various websites and scenarios
 
 ## 📄 License
 
@@ -177,22 +188,62 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Inspired by occupational health research on computer use
-- Built with Chrome Extension Manifest V3 best practices
-- UI components styled with modern web standards
+- **Trae Hackathon Hangzhou** - Special thanks for providing the platform and support for this project
+- Chrome Extension documentation and community
+- CSS Transform and animation specifications
+- Ergonomic research on computer-related neck strain
+- Open source contributors and testers
 
-## 📞 Support
+## 📋 Project Documentation
 
-- **Issues**: Report bugs on [GitHub Issues](https://github.com/your-username/neck-therapy-extension/issues)
-- **Discussions**: Join community discussions
-- **Documentation**: Check the [docs](docs/) folder for detailed guides
+For detailed project documentation and development insights, please visit:
+- [Project Documentation](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf)
+
+## 📱 Follow Us
+
+Stay connected with us for the latest updates and coding insights:
+
+### WeChat Official Account - Vibe编码
+<div align="center">
+  <img src="dogtor-website/src/assets/images/wechat-qr.jpg" alt="WeChat QR Code" width="200">
+  <p><strong>Vibe编码</strong></p>
+  <p>Follow our WeChat official account for coding tutorials, tech insights, and project updates</p>
+</div>
+
+### Xiaohongshu - VibeCoder
+<div align="center">
+  <img src="dogtor-website/src/assets/images/xiaohongshu-qr.jpg" alt="Xiaohongshu QR Code" width="200">
+  <p><strong>VibeCoder</strong></p>
+  <p>Follow us on Xiaohongshu for creative coding content and behind-the-scenes development stories</p>
+</div>
 
 ---
 
 <div align="center">
+  <p>Made with ❤️ by the Dogtor Team</p>
+  <p>© 2024 Dogtor. All rights reserved.</p>
+</div>
+- [Plugin Development Documentation](https://tcn0t06t3c8f.feishu.cn/docx/N7Q8dVXutokDkmx0snJcYheSnuf?from=from_copylink)
 
-**Take care of your neck health! 🏥**
+## 📞 Support
 
-Made with ❤️ for developers and office workers worldwide
+If you encounter any issues or have questions:
 
+- **Issues**: [GitHub Issues](https://github.com/your-username/dogtor/issues)
+- **Documentation**: [Project Wiki](https://github.com/your-username/dogtor/wiki)
+- **Email**: support@dogtor.com
+
+## 🔮 Roadmap
+
+- [ ] **Multi-language Support**: Internationalization for global users
+- [ ] **Advanced Analytics**: Detailed usage statistics and health insights
+- [ ] **Exercise Variations**: Additional neck exercise patterns
+- [ ] **Integration**: Compatibility with other health and productivity tools
+- [ ] **Mobile Support**: Extension for mobile browsers
+
+---
+
+<div align="center">
+  <p>Made with ❤️ for healthier computing</p>
+  <p>⭐ Star this repo if it helps you maintain better neck health!</p>
 </div>
